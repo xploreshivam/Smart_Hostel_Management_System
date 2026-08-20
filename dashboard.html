@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NexStay: Student Dashboard Project</title>
+    <meta name="description" content="NexStay Student Dashboard for room management, leave passes, and mess schedule.">
+    <meta name="theme-color" content="#722F37">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-hotel"></i>
+                <span>NexStay</span>
+            </div>
+
+            <div class="user-profile" onclick="openProfileModal()" style="cursor:pointer;" title="Edit Profile Settings">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Student Profile" class="avatar" id="sidebarAvatar" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Priya+Sharma&background=722F37&color=fff&bold=true';">
+                <div class="info">
+                    <h4 id="sidebarName">Priya Sharma</h4>
+                    <p id="sidebarSub">Room 204 · Block A</p>
+                </div>
+            </div>
+
+            <div class="alert-toggle">
+                <span style="font-size:0.82rem;font-weight:600;color:var(--text-muted); display:flex;align-items:center;gap:7px;">
+                    <i class="fa-solid fa-bell" style="color:var(--warning);"></i> Smart Alerts
+                </span>
+                <label class="switch">
+                    <input type="checkbox" checked onclick="showToast('Alert preferences saved!')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <nav class="side-nav">
+                <a href="#" class="active" onclick="switchStudentTab('dashboard', this)"><i class="fa-solid fa-grid-2"></i> Dashboard</a>
+                <a href="#" onclick="switchStudentTab('qrpass', this)"><i class="fa-solid fa-qrcode"></i> QR Pass <span class="badge" style="margin-left:auto; font-size:0.65rem;">New</span></a>
+                <a href="#" onclick="switchStudentTab('room', this)"><i class="fa-solid fa-bed"></i> Room Details</a>
+                <a href="#" onclick="switchStudentTab('leave', this)"><i class="fa-solid fa-plane-departure"></i> Leave Passes</a>
+                <a href="#" onclick="switchStudentTab('payments', this)"><i class="fa-solid fa-wallet"></i> Fee & Payments</a>
+                <a href="#" onclick="switchStudentTab('mess', this)"><i class="fa-solid fa-utensils"></i> Mess Menu</a>
+            </nav>
+
+            <button class="logout-btn" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </aside>
+
+
+        <main class="dashboard-content">
+
+            <div id="section-dashboard" class="student-section">
+                <header class="topbar">
+                    <div>
+                        <h2>Dashboard</h2>
+                    </div>
+                    <div class="top-actions">
+                        <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                        <button class="btn-primary" onclick="openPaymentModal()">
+                            <i class="fa-solid fa-credit-card"></i> Pay Dues
+                        </button>
+                        <button class="icon-btn" style="position:relative;" title="Notifications" onclick="toggleNotifications()">
+                            <i class="fa-regular fa-bell"></i>
+                            <span style="position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:1.5px solid white;"></span>
+                        </button>
+                    </div>
+                </header>
+
+
+                <div class="grid-cards">
+                    <div class="glass-card stat">
+                        <div class="icon blue"><i class="fa-solid fa-door-open"></i></div>
+                        <div class="details">
+                            <p>Your Room</p>
+                            <h3>Block C · 405</h3>
+                            <small>Floor 4 · Wing A</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon orange"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="details">
+                            <p>Last Check-In</p>
+                            <h3>10:30 AM</h3>
+                            <small class="text-success"><i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> In Campus</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon red"><i class="fa-solid fa-wallet"></i></div>
+                        <div class="details">
+                            <p>Mess Dues</p>
+                            <h3>₹12,500</h3>
+                            <small class="text-danger">Overdue in 2 days</small>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="quick-actions">
+                    <button class="action-btn glass-card" onclick="applyLeave()">
+                        <i class="fa-solid fa-paper-plane" style="color:var(--primary);"></i>
+                        <p>Apply Leave</p>
+                    </button>
+                    <button class="action-btn glass-card" onclick="openPaymentModal()">
+                        <i class="fa-solid fa-receipt" style="color:var(--warning);"></i>
+                        <p>Pay Fees</p>
+                    </button>
+                    <button class="action-btn glass-card" onclick="reportIssue()">
+                        <i class="fa-solid fa-screwdriver-wrench" style="color:var(--danger);"></i>
+                        <p>Report Issue</p>
+                    </button>
+                    <button class="action-btn glass-card" onclick="showMessMenu()">
+                        <i class="fa-solid fa-utensils" style="color:var(--success);"></i>
+                        <p>Mess Menu</p>
+                    </button>
+                </div>
+
+
+                <div class="dashboard-grid">
+
+                    <div class="glass-card span-2">
+                        <div class="card-header">
+                            <h3>Payment History</h3>
+                            <button class="btn-text" onclick="downloadStatements()"><i class="fa-solid fa-download" style="font-size:0.75rem;"></i> Statements</button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight:700;">#TXN-10492</td>
+                                    <td>Semester 4 Mess Fee</td>
+                                    <td>Oct 12, 2026</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:700;">#TXN-09384</td>
+                                    <td>Hostel Registration Fee</td>
+                                    <td>Sep 05, 2026</td>
+                                    <td><span class="badge success">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:700;">#TXN-08271</td>
+                                    <td>Security Deposit</td>
+                                    <td>Jul 28, 2026</td>
+                                    <td><span class="badge success">Paid</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="glass-card flex-col">
+                        <div class="card-header">
+                            <h3>Recent Messages</h3>
+                            <button class="btn-text" onclick="viewAllMessages()">View All</button>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="padding:14px;background:rgba(21,128,61,0.05);border-radius:12px;border-left:3px solid var(--success);">
+                                <p style="font-size:0.75rem;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-comment-sms" style="color:var(--success);"></i> 2 hours ago · SMS</p>
+                                <h4 style="font-size:0.88rem;font-weight:600;">Your Leave Pass was approved! Have a safe trip.</h4>
+                            </div>
+                            <div style="padding:14px;background:var(--primary-light);border-radius:12px;border-left:3px solid var(--primary);">
+                                <p style="font-size:0.75rem;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-bullhorn" style="color:var(--primary);"></i> Yesterday · Broadcast</p>
+                                <h4 style="font-size:0.88rem;font-weight:600;">Maintenance in Block C this Friday. Plan accordingly.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="section-qrpass" class="student-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Digital Gate Pass</h2><p>Always carry this active pass at the security gate.</p></div>
+                </header>
+                <div class="glass-card" style="max-width:400px; margin:20px auto; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; padding:40px 32px 32px;">
+                    <div style="position:absolute; top:20px; right:20px;"><span class="badge success">Active</span></div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=STU405_PRIYA_SHARMA_NEXSTAY" alt="QR Code" style="display:block; margin:20px auto 20px; border-radius:12px; padding:10px; background:white; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+                    <h2 style="margin:0 0 6px;" id="qrPassName">Priya Sharma</h2>
+                    <p style="color:var(--text-muted); margin-bottom:20px; font-family:monospace; font-size:1.1rem;">ID: EN2024045</p>
+                    <div style="width:100%; background:var(--bg-section); padding:16px; border-radius:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:center;">
+                        <div>
+                            <span style="font-size:0.75rem; color:var(--text-muted);">Valid Date</span>
+                            <div style="font-weight:600;">Full Semester</div>
+                        </div>
+                        <div>
+                            <span style="font-size:0.75rem; color:var(--text-muted);">Access Level</span>
+                            <div style="font-weight:600; color:var(--success);">All Zones</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="section-room" class="student-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Room Allocation</h2><p>View your roommates and room inventory.</p></div>
+                    <button class="btn-secondary" onclick="reportIssue()"><i class="fa-solid fa-wrench"></i> Report Damage</button>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="glass-card span-2">
+                        <div class="card-header"><h3>Roommates</h3></div>
+                        <table class="data-table">
+                            <thead><tr><th>Name</th><th>Course</th><th>Contact</th><th>Bed</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><div style="display:flex;align-items:center;gap:10px;"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=40&h=40&q=80" style="width:30px;height:30px;border-radius:50%;object-fit:cover;"> <span style="font-weight:600;">Sneha Joshi</span></div></td>
+                                    <td>M.Tech CSE</td>
+                                    <td><button class="btn-text">View</button></td>
+                                    <td><span class="badge" style="background:#e0f2fe;color:#0ea5e9;">Bed 1</span></td>
+                                </tr>
+                                <tr>
+                                    <td><div style="display:flex;align-items:center;gap:10px;"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=40&h=40&q=80" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--primary);"> <span style="font-weight:600;">You</span></div></td>
+                                    <td>B.Tech IT</td>
+                                    <td>--</td>
+                                    <td><span class="badge" style="background:#fce7f3;color:#db2777;">Bed 2</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="glass-card flex-col">
+                        <div class="card-header"><h3>Room Inventory</h3></div>
+                        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:12px;">
+                            <li style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border-light);"><span style="color:var(--text-muted);"><i class="fa-solid fa-bed" style="margin-right:8px;"></i> Beds</span> <strong>2 (Ok)</strong></li>
+                            <li style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border-light);"><span style="color:var(--text-muted);"><i class="fa-solid fa-fan" style="margin-right:8px;"></i> Ceiling Fans</span> <strong>2 (Ok)</strong></li>
+                            <li style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--border-light);"><span style="color:var(--text-muted);"><i class="fa-solid fa-lightbulb" style="margin-right:8px;"></i> Tubelights</span> <strong>4 (Ok)</strong></li>
+                            <li style="display:flex; justify-content:space-between; padding:12px;"><span style="color:var(--text-muted);"><i class="fa-solid fa-plug" style="margin-right:8px;"></i> Sockets</span> <strong><span class="text-danger">1 Damaged</span></strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="section-leave" class="student-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Leave History</h2><p>Track your past and upcoming approved tickets.</p></div>
+                    <button class="btn-primary" onclick="applyLeave()"><i class="fa-solid fa-plus"></i> New Request</button>
+                </header>
+                <div class="glass-card">
+                    <table class="data-table">
+                        <thead><tr><th>Request Date</th><th>Duration</th><th>Reason</th><th>Gate Status</th><th>Approval</th></tr></thead>
+                        <tbody>
+                            <tr><td>Today, 09:00 AM</td><td>Apr 12 - Apr 15</td><td>Family Function</td><td>--</td><td><span class="badge warning">Pending Warden</span></td></tr>
+                            <tr><td>Mar 10, 2026</td><td>Mar 12 - Mar 14</td><td>Medical Leave</td><td><span class="text-success"><i class="fa-solid fa-check"></i> Scanned</span></td><td><span class="badge success">Approved</span></td></tr>
+                            <tr><td>Jan 22, 2026</td><td>Jan 24 - Jan 25</td><td>Weekend Home</td><td><span class="text-success"><i class="fa-solid fa-check"></i> Scanned</span></td><td><span class="badge success">Approved</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div id="section-payments" class="student-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Fee Portal</h2><p>Manage pending dues and download receipts.</p></div>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="glass-card" style="background:linear-gradient(135deg, rgba(114,47,55,1), rgba(165,42,42,1)); color:white; border:none;">
+                        <h3 style="color:white; opacity:0.8; font-weight:500;">Total Outstanding</h3>
+                        <h1 style="font-size:3.5rem; margin:10px 0 20px;">₹12,500</h1>
+                        <p style="opacity:0.9; margin-bottom:20px;"><i class="fa-solid fa-circle-info"></i> Includes Mess Arrears (₹500)</p>
+                        <button class="btn-primary w-100 btn-pill" style="background:white; color:var(--primary);" onclick="openPaymentModal()">Pay Now Securely</button>
+                    </div>
+                    <div class="glass-card span-2">
+                        <div class="card-header"><h3>Invoices (Semester 4)</h3><button class="btn-text">Download All</button></div>
+                        <table class="data-table">
+                            <thead><tr><th>Invoice No.</th><th>Type</th><th>Amount</th><th>Status</th><th>Download</th></tr></thead>
+                            <tbody>
+                                <tr><td style="font-weight:700;">INV-9022</td><td>Mess Fee (April)</td><td>₹12,000</td><td><span class="badge danger">Due</span></td><td><button class="btn-text text-muted"><i class="fa-solid fa-file-pdf"></i></button></td></tr>
+                                <tr><td style="font-weight:700;">INV-8910</td><td>Hostel Fee (Sem 4)</td><td>₹45,000</td><td><span class="badge success">Paid</span></td><td><button class="btn-text text-primary" onclick="showToast('Downloading INV-8910.pdf','info')"><i class="fa-solid fa-file-pdf"></i></button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-mess" class="student-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Weekly Mess Menu</h2><p>Block C Dining Hall — Standard Veg Plan.</p></div>
+                    <button class="btn-secondary" onclick="showToast('Thank you for your feedback!','success')"><i class="fa-regular fa-star"></i> Rate Food</button>
+                </header>
+                <div class="glass-card">
+                    <div style="display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; padding-bottom:10px;" id="messDayBtns">
+                        <button class="btn-secondary" onclick="switchMessDay(0,this)">Monday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(1,this)">Tuesday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(2,this)">Wednesday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(3,this)">Thursday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(4,this)">Friday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(5,this)">Saturday</button>
+                        <button class="btn-secondary" onclick="switchMessDay(6,this)">Sunday</button>
+                    </div>
+                    <table class="data-table">
+                        <thead style="background:var(--bg-section);">
+                            <tr><th>Meal</th><th>Timings</th><th>Menu Items</th></tr>
+                        </thead>
+                        <tbody id="messTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+    <div class="glass-overlay modal" id="paymentModal">
+        <div class="modal-content" style="max-width:400px;text-align:center;">
+            <button class="close-btn" onclick="closePaymentModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div style="font-size:2.5rem;color:var(--primary);margin-bottom:12px;"><i class="fa-brands fa-stripe"></i></div>
+            <h2>Secure Payment</h2>
+            <p style="margin-bottom:20px;">Instant fee clearance via encrypted gateway.</p>
+            <div class="payment-amount-box">
+                <p>Amount Due</p>
+                <h1>₹12,500<span>.00</span></h1>
+            </div>
+            <button class="btn-primary w-100 btn-pill" style="padding:16px;font-size:1rem;" onclick="simulatePayment(this)">
+                <i class="fa-solid fa-lock"></i> Pay Securely
+            </button>
+        </div>
+    </div>
+
+    <div class="glass-overlay modal" id="leaveModal">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <button class="close-btn" onclick="closeLeaveModal()"><i class="fa-solid fa-xmark"></i></button>
+
+            <div id="leaveFormSection">
+                <div style="font-size:2.5rem; color:var(--primary); margin-bottom:12px;"><i class="fa-solid fa-paper-plane"></i></div>
+                <h2 style="margin-bottom: 8px;">Apply for Leave</h2>
+                <p style="margin-bottom: 24px; color: var(--text-muted); font-size:0.9rem;">Request permission for campus exit.</p>
+                <form onsubmit="generateQRPass(event)" style="text-align: left;">
+                    <div class="input-group">
+                        <label>Departure Date</label>
+                        <input type="date" id="leaveDate" required style="padding-left:16px;" min="">
+                    </div>
+                    <div class="input-group">
+                        <label>Reason for Leave</label>
+                        <input type="text" id="leaveReason" placeholder="e.g. Going Home, Medical, Family Function" required style="padding-left:16px;">
+                    </div>
+                    <button type="submit" class="btn-primary w-100 btn-pill" style="margin-top: 10px; padding:16px; font-size:1rem;">
+                        <i class="fa-solid fa-qrcode"></i> Generate Gate Pass
+                    </button>
+                </form>
+            </div>
+
+            <div id="qrTicketSection" style="display: none;">
+                <h2 style="color: var(--success); margin-bottom: 5px;">Pass Approved</h2>
+                <p style="margin-bottom: 20px; font-size:0.85rem; color:var(--text-muted);">Show this QR code at the main gate.</p>
+                <div class="glass-card" style="padding: 24px; background: var(--white); border: 2px dashed var(--border); box-shadow:none; display:flex; flex-direction:column; align-items:center; text-align:center;">
+                    <img id="generatedQR" src="" alt="QR Code" style="display:block; margin:0 auto 15px; border-radius: 8px; width:160px; height:160px;">
+                    <h3 style="font-size: 1.2rem; margin:0 0 6px;" id="leaveTicketName">Priya Sharma</h3>
+                    <p style="font-size: 0.8rem; font-family:monospace; color:var(--text-muted); margin-bottom:10px;">BCS2024045 · Block C - 405</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom:12px;" id="ticketDate">Valid for: --</p>
+                    <span class="badge success" style="font-size:0.75rem; padding:6px 16px;">VALID TICKET</span>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button type="button" class="btn-secondary btn-pill" style="flex:1;" onclick="applyLeave()"><i class="fa-solid fa-rotate-left"></i> New Pass</button>
+                    <button type="button" class="btn-primary btn-pill" style="flex:1;" onclick="closeLeaveModal()"><i class="fa-solid fa-check"></i> Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PROFILE SETTINGS MODAL (Content injected by script.js) -->
+    <div class="glass-overlay modal" id="profileModal">
+        <div class="modal-content" style="max-width: 440px;">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+
+    <footer class="footer" style="padding: 60px 8% 30px; margin-top: 40px;">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fa-solid fa-hotel"></i>
+                    <span>NexStay</span>
+                </div>
+                <p>Enterprise Campus OS for elite educational institutions. Optimized for speed and student safety.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Dashboard</h4>
+                <ul>
+                    <li><a href="#">Compliance</a></li>
+                    <li><a href="#">Discipline Records</a></li>
+                    <li><a href="#">Guest Requests</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Campus Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NexStay. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="./js/script.js" defer></script>
+</body>
+</html>

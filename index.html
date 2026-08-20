@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NexStay: Smart Hostel Management Project</title>
+    <meta name="description" content="NexStay is a modern, responsive hostel management web app for students, wardens, and admins with room allotment, digital gate passes, and real-time operations.">
+    <meta name="theme-color" content="#722F37">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Preconnect resource hints for Core Web Vitals & faster LCP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <style>
+        /* =============================================
+           LANDING PAGE 
+           ============================================= */
+        body { background: var(--bg-main); }
+
+        /* ---- NAVBAR ---- */
+        nav#lpNav:nth-of-type(1),
+        .lp-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 7%;
+            height: 72px;
+            background: rgba(255, 252, 249, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] nav#lpNav:nth-of-type(1),
+        [data-theme="dark"] .lp-nav {
+            background: rgba(15, 5, 7, 0.88);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.45);
+        }
+        
+        .lp-nav .logo-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.3px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .lp-nav .logo-text:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+        .lp-nav .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 1.05rem;
+            box-shadow: 0 2px 8px rgba(114, 47, 55, 0.12);
+            transition: transform 0.25s ease;
+        }
+        .lp-nav .logo-text:hover .logo-icon {
+            transform: rotate(-6deg) scale(1.05);
+        }
+
+        .lp-nav__links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lp-nav__links a {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .lp-nav__links a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .lp-nav__actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 10px;
+            padding-left: 14px;
+            border-left: 1px solid var(--border-light);
+        }
+
+        .lp-nav .dark-toggle {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .lp-nav .dark-toggle:hover,
+        .lp-nav .dark-toggle:focus-visible,
+        .lp-nav .dark-toggle:focus {
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 16px rgba(114, 47, 55, 0.35), 0 0 4px rgba(114, 47, 55, 0.5);
+            transform: scale(1.06);
+        }
+        [data-theme="dark"] .lp-nav .dark-toggle:hover,
+        [data-theme="dark"] .lp-nav .dark-toggle:focus-visible,
+        [data-theme="dark"] .lp-nav .dark-toggle:focus {
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.7);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.45), 0 0 6px rgba(245, 158, 11, 0.6);
+        }
+        .lp-nav .dark-toggle:hover #themeIcon,
+        .lp-nav .dark-toggle:focus-visible #themeIcon,
+        .lp-nav .dark-toggle:focus #themeIcon {
+            filter: drop-shadow(0 0 6px var(--primary-glow));
+        }
+        [data-theme="dark"] .lp-nav .dark-toggle:hover #themeIcon,
+        [data-theme="dark"] .lp-nav .dark-toggle:focus-visible #themeIcon,
+        [data-theme="dark"] .lp-nav .dark-toggle:focus #themeIcon {
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+        }
+        .lp-nav .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: var(--radius-md, 10px);
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            border: none;
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px var(--primary-glow);
+            transition: all 0.25s ease;
+        }
+        .lp-nav .nav-cta:hover {
+            background: var(--primary-mid);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+        .lp-nav .nav-cta:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 860px) {
+            .lp-nav { padding: 0 5%; height: 64px; }
+            .lp-nav__links a { display: none; }
+            .lp-nav__actions { border-left: none; padding-left: 0; margin-left: 0; gap: 8px; }
+            .lp-nav .nav-cta { padding: 8px 16px; font-size: 0.82rem; }
+            .lp-hero { padding: 80px 5% 50px; min-height: auto; }
+            .lp-hero h1 { font-size: 2.2rem; }
+            .lp-hero p { font-size: 0.95rem; margin-bottom: 28px; }
+            .lp-hero__actions { display: flex; flex-direction: column; width: 100%; max-width: 320px; gap: 12px; }
+            .btn-hero-primary, .btn-hero-ghost { width: 100%; padding: 14px 24px; }
+            .lp-section { padding: 50px 5%; }
+            .section-heading { font-size: 1.75rem; margin-bottom: 24px; }
+            .about-grid,
+            #contact > div {
+                grid-template-columns: 1fr !important;
+                gap: 36px !important;
+            }
+            .lp-footer__top {
+                grid-template-columns: 1fr !important;
+                gap: 28px !important;
+            }
+            .stats-row { gap: 16px !important; }
+            .faq-filter-pills { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+            .faq-pill { flex-shrink: 0; white-space: nowrap; }
+        }
+
+        /* ---- HERO ---- */
+        .lp-hero {
+            min-height: 80vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 100px 7%;
+        }
+        .lp-hero h1 {
+            font-size: 3.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 20px;
+        }
+        .lp-hero h1 span { color: var(--primary); }
+        .lp-hero p {
+            font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px;
+        }
+        .btn-hero-primary {
+            padding: 16px 40px; font-size: 1rem; font-weight: 600;
+            border-radius: 8px; border: none; cursor: pointer;
+            background: var(--primary); color: #fff;
+        }
+        .btn-hero-ghost {
+            padding: 16px 40px; font-size: 1rem; font-weight: 500;
+            border-radius: 8px; border: 1.5px solid var(--border); cursor: pointer;
+            background: transparent; color: var(--text-muted);
+        }
+
+        /* ---- SECTIONS ---- */
+        .lp-section { padding: 80px 7%; }
+        .lp-section--alt { background: var(--bg-section); }
+        .section-heading {
+            font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: var(--white); border: 1px solid var(--border-light);
+            border-radius: 12px; padding: 30px;
+        }
+        .feature-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 20px; }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* ---- CTA & FOOTER ---- */
+        .lp-cta {
+            padding: 80px 7%; text-align: center; background: var(--primary); color: #fff;
+        }
+        .lp-cta h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .lp-cta p { margin-bottom: 30px; opacity: 0.8; }
+        .btn-cta-white {
+            padding: 15px 40px; font-size: 1rem; font-weight: 700;
+            border-radius: 8px; border: none; background: #fff; color: var(--primary);
+        }
+
+        footer:nth-of-type(1),
+        .lp-footer {
+            background: var(--bg-section);
+            color: var(--text-muted);
+            padding: 60px 7% 30px;
+            border-top: 1px solid var(--border-light);
+            transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+        }
+        .lp-footer__top {
+            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+            padding-bottom: 36px; border-bottom: 1px solid var(--border-light);
+        }
+        .lp-footer h5 {
+            color: var(--text-main);
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .lp-footer ul { list-style: none; padding: 0; }
+        .lp-footer ul li { margin-bottom: 10px; }
+        .lp-footer ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+        .lp-footer ul a:hover { color: var(--primary); }
+        .lp-footer__bottom {
+            padding-top: 24px;
+            margin-top: 10px;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lp-footer__bottom p {
+            margin: 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Simple Modal Pop */
+        .modal-content { transition: transform 0.3s ease; }
+        .glass-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body>
+
+    <!-- ============================
+         NAVBAR
+    ============================= -->
+    <nav class="lp-nav" id="lpNav">
+        <a href="#" class="logo-text">
+            <span class="logo-icon">
+                <i class="fa-solid fa-hotel"></i>
+            </span>
+            <span>NexStay.</span>
+        </a>
+        <div class="lp-nav__links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+            <div class="lp-nav__actions">
+                <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="nav-cta" onclick="openLogin(); addRipple(event, this)">
+                    <i class="fa-solid fa-right-to-bracket" style="font-size:0.85rem;"></i> Login Portal
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================
+         HERO
+    ============================= -->
+    <section class="lp-hero" id="home">
+        <h1>Hostel Management <span>Made Easy.</span></h1>
+        <p>A simple and efficient way to manage room allocations, student records, and daily operations for college hostels.</p>
+        <div class="lp-hero__actions">
+            <button class="btn-hero-primary" onclick="openLogin()">
+                Get Started &rarr;
+            </button>
+            <button class="btn-hero-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+                Learn More
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================
+         QUICK STATS
+    ============================= -->
+    <section class="lp-section--alt" style="padding: 40px 7%; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+        <div class="stats-row" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">250+</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Students</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">120+</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Rooms</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">3</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Portals</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+         FEATURES SECTION
+    ============================= -->
+    <section class="lp-section" id="features">
+        <h2 class="section-heading">Key Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-bed"></i>
+                <h3>Room Allocation</h3>
+                <p>Track real-time room availability and manage student allotments across different blocks with a simple grid interface.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Gate Pass System</h3>
+                <p>Generate secure digital gate passes and track student out/in timings automatically for better campus safety.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-utensils"></i>
+                <h3>Mess Management</h3>
+                <p>Easily manage and view weekly mess menus with a simple switching interface for students and staff.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+         ABOUT SECTION
+    ============================= -->
+    <section class="lp-section lp-section--alt" id="about">
+        <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+            <div>
+                <h2 class="section-heading">Built for Students</h2>
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                    NexStay was developed to replace old paper registers and scattered excel sheets with a unified digital platform. 
+                    It is designed to be lightweight, easy to use, and accessible from any device.
+                </p>
+                <p style="color: var(--text-muted); line-height: 1.6;">
+                    Whether you are a student checking your room status or a warden managing a block, 
+                    everything you need is just a click away.
+                </p>
+            </div>
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; padding: 30px;">
+                <h4 style="margin-bottom: 20px; font-weight: 700;">Role-Based Access</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i>
+                        <span>Student Dashboard</span>
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i>
+                        <span>Warden Control Panel</span>
+                    </li>
+                    <li style="margin-bottom: 0; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i>
+                        <span>Admin Central Command</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+         FAQ SECTION (ACCORDION)
+    ============================= -->
+    <section class="faq-section" id="faq">
+        <div class="faq-header-wrapper">
+           
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <p class="section-sub">Find quick answers to common queries about room transfers, mess schedules, out-passes, and campus policies.</p>
+        </div>
+
+        <div class="faq-controls">
+            <!-- Search Bar -->
+            <div class="faq-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Search questions (e.g. room change, mess menu, gate pass, fees)..." aria-label="Search frequently asked questions">
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="faq-filter-pills">
+                <button class="faq-pill active" onclick="setFaqCategory('all', this)"><i class="fa-solid fa-list-check"></i> All Topics</button>
+                <button class="faq-pill" onclick="setFaqCategory('rooms', this)"><i class="fa-solid fa-bed"></i> Rooms</button>
+                <button class="faq-pill" onclick="setFaqCategory('mess', this)"><i class="fa-solid fa-utensils"></i> Mess &amp; Dining</button>
+                <button class="faq-pill" onclick="setFaqCategory('passes', this)"><i class="fa-solid fa-qrcode"></i> Gate Pass</button>
+                <button class="faq-pill" onclick="setFaqCategory('maintenance', this)"><i class="fa-solid fa-wrench"></i> Maintenance</button>
+                <button class="faq-pill" onclick="setFaqCategory('billing', this)"><i class="fa-solid fa-credit-card"></i> Fees &amp; Accounts</button>
+            </div>
+        </div>
+
+        <!-- Accordion List -->
+        <div class="faq-accordion-list" id="faqAccordionList">
+            
+            <!-- Item 1: Room Change -->
+            <div class="faq-item active" data-category="rooms">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="true">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Rooms</span>
+                        <h3 class="faq-question">How do I request a room change?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>Students can initiate a room transfer digitally through the <strong>Student Portal</strong> without manual paperwork. Follow these simple steps:</p>
+                            <ol>
+                                <li>Log in to your <strong>Student Dashboard</strong> and navigate to <strong>My Room &rarr; Request Transfer / Grievances</strong>.</li>
+                                <li>Select your preferred block (<em>Block A, B, or C</em>) and target room type (<em>Single, Double, or Triple Suite</em>).</li>
+                                <li>Provide a brief justification for the change (e.g., academic branch alignment, medical reason, or mutual swap).</li>
+                                <li>Your assigned block warden reviews live bed occupancy and approves eligible transfers. You will receive an instant dashboard notification once approved.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Mess Menu -->
+            <div class="faq-item" data-category="mess">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="false">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Mess &amp; Dining</span>
+                        <h3 class="faq-question">How is the mess menu updated?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>The weekly nutritional meal schedule is curated by the student mess committee and officially approved by the head warden:</p>
+                            <ul>
+                                <li><strong>Weekly Refresh:</strong> Every Sunday evening, the upcoming week's schedule for <em>Breakfast, Lunch, Evening Snacks, and Dinner</em> is uploaded to the system.</li>
+                                <li><strong>Live Viewing:</strong> Students can click on <strong>Mess Schedule</strong> in the dashboard navigation to view today's meals, serving timings, and upcoming items for the entire week.</li>
+                                <li><strong>Special &amp; Festival Menus:</strong> Holiday specials or feast notifications are broadcasted directly to student notice feeds 24 hours in advance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: Digital Gate Pass -->
+            <div class="faq-item" data-category="passes">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="false">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Gate Pass</span>
+                        <h3 class="faq-question">How do I generate and use a Digital Gate Pass?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>NexStay features a paperless QR gate pass system to maintain student safety and streamline campus exits:</p>
+                            <ul>
+                                <li>Go to the <strong>Gate Pass / Leave</strong> section on your Student Dashboard and tap <em>Apply Pass</em>.</li>
+                                <li>Enter the destination, reason, and estimated return date/time.</li>
+                                <li>Once validated by the warden, a secure dynamic QR pass is generated on your screen.</li>
+                                <li>Show the QR code to security personnel at the hostel main gate for a contactless 1-second barcode scan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4: Maintenance & Repairs -->
+            <div class="faq-item" data-category="maintenance">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="false">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Maintenance</span>
+                        <h3 class="faq-question">How do I report room maintenance or electrical issues?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>To report any plumbing, electrical, furniture, or internet breakdown:</p>
+                            <ul>
+                                <li>Click <strong>Report Issue</strong> from your dashboard or quick actions bar.</li>
+                                <li>Select the relevant category (<em>Electrical, Plumbing, Wi-Fi / Network, Carpentry, Cleaning</em>).</li>
+                                <li>Select urgency level: <strong>Low</strong>, <strong>Medium</strong>, or <strong>High</strong> (urgent power/water outages).</li>
+                                <li>A maintenance ticket is automatically assigned to the on-duty campus technician, with an average resolution time of under 24 hours.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5: Fee Payments & Billing -->
+            <div class="faq-item" data-category="billing">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="false">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Fees &amp; Accounts</span>
+                        <h3 class="faq-question">How can I pay hostel fees and download invoices?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>Hostel fees and mess dues can be managed seamlessly through the integrated billing ledger:</p>
+                            <ul>
+                                <li>Navigate to <strong>Payments &amp; Ledger</strong> in your student account to inspect fee breakdowns and due dates.</li>
+                                <li>Pay online instantly using UPI, NetBanking, Credit/Debit cards, or campus wallet.</li>
+                                <li>An official GST-compliant tax receipt is generated instantly with a unique transaction reference number and is downloadable as a PDF anytime.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6: Emergency & Medical Support -->
+            <div class="faq-item" data-category="maintenance">
+                <button class="faq-trigger" onclick="toggleFaqItem(this)" aria-expanded="false">
+                    <div class="faq-title-group">
+                        <span class="faq-category-tag">Emergency</span>
+                        <h3 class="faq-question">What should I do in case of a late-night emergency or illness?</h3>
+                    </div>
+                    <span class="faq-icon-badge"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-collapse">
+                    <div class="faq-collapse-inner">
+                        <div class="faq-answer">
+                            <p>Student health and safety is our top priority. For immediate assistance:</p>
+                            <ul>
+                                <li>Contact the <strong>24/7 Campus Control Room:</strong> <code>+91 1800-NEXSTAY</code> or dial the on-call Block Warden directly.</li>
+                                <li>Tap the <strong>Emergency SOS</strong> button on your dashboard to send an instant alert with your room number to the warden and security desk.</li>
+                                <li>The 24/7 Campus Infirmary and ambulance response team are located at the Academic Block A ground floor.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Empty search result message -->
+        <div id="faqEmptyMessage" class="faq-empty-message">
+            <i class="fa-solid fa-magnifying-glass" style="font-size:1.8rem; color:var(--primary); margin-bottom:12px; display:block;"></i>
+            <p style="margin:0 0 6px; font-weight:600; color:var(--text-main);">No matching questions found</p>
+            <p style="margin:0; font-size:0.85rem;">Try adjusting your search terms or select "All Topics" above.</p>
+        </div>
+
+        <!-- Help Banner at Bottom -->
+        <div class="faq-help-box">
+            <div class="faq-help-content">
+                <h4>Still have questions or need personalized help?</h4>
+                <p>Our hostel administration and student support team are available 24/7 to assist you.</p>
+            </div>
+            <a href="#contact" class="btn-hero-primary" style="padding:12px 28px; font-size:0.9rem; text-decoration:none; white-space:nowrap;">
+                <i class="fa-solid fa-headset" style="margin-right:8px;"></i> Contact Support
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================
+         CONTACT
+    ============================= -->
+    <section class="lp-section" id="contact">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;">
+            <div>
+                <p class="section-label reveal">Get In Touch</p>
+                <h2 class="section-heading reveal reveal-delay-1">We'd love to hear<br>from your campus.</h2>
+                <p class="section-sub reveal reveal-delay-2" style="margin-bottom:40px;">Whether you're a college administrator or a student tech lead, reach out to set up NexStay at your institution.</p>
+                <div style="display:flex; flex-direction:column; gap:20px;">
+                    <div class="reveal reveal-delay-1" style="display:flex; gap:16px; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem;">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:4px;">Headquarters</h4>
+                            <p style="font-size:0.85rem; color:var(--text-muted);">INVERTIS UNIVERSITY BAREILLY, UTTAR PRADESH,INDIA</p>
+                        </div>
+                    </div>
+                    <div class="reveal reveal-delay-2" style="display:flex; gap:16px; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem;">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:4px;">24/7 Support</h4>
+                            <p style="font-size:0.85rem; color:var(--text-muted);">joinupshivam@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="reveal reveal-delay-3" style="display:flex; gap:16px; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem;">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:4px;">Partnership</h4>
+                            <p style="font-size:0.85rem; color:var(--text-muted);">joinupshivam@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-2" style="background:var(--bg-section); border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:44px;">
+                <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:6px;">Quick Enquiry</h3>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:28px;">We typically respond within one business day.</p>
+                <form id="contactEnquiryForm" onsubmit="event.preventDefault(); submitEnquiry(this.querySelector('button[type=submit]'));" novalidate style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="input-group" id="group-contactName">
+                        <label for="contactName">Your Name <span style="color:var(--danger); font-size:0.85rem;">*</span></label>
+                        <div style="position:relative;">
+                            <i class="fa-regular fa-user" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--primary); opacity:0.6; pointer-events:none; font-size:0.95rem;"></i>
+                            <input type="text" placeholder="Dr. Rajesh Kumar" id="contactName" name="contactName" style="padding-left:44px;" autocomplete="name" required>
+                        </div>
+                        <div class="field-error-msg" id="error-contactName" style="display:none;"></div>
+                    </div>
+                    <div class="input-group" id="group-contactEmail">
+                        <label for="contactEmail">Institution Email <span style="color:var(--danger); font-size:0.85rem;">*</span></label>
+                        <div style="position:relative;">
+                            <i class="fa-regular fa-envelope" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--primary); opacity:0.6; pointer-events:none; font-size:0.95rem;"></i>
+                            <input type="email" placeholder="director@university.edu" id="contactEmail" name="contactEmail" style="padding-left:44px;" autocomplete="email" required>
+                        </div>
+                        <div class="field-error-msg" id="error-contactEmail" style="display:none;"></div>
+                    </div>
+                    <div class="input-group" id="group-contactMsg" style="margin-bottom:4px;">
+                        <label for="contactMsg">Message <span style="color:var(--danger); font-size:0.85rem;">*</span></label>
+                        <textarea placeholder="Tell us about your campus and hostel requirements..." id="contactMsg" name="contactMsg" rows="4" style="width:100%; padding:14px; border:1.5px solid var(--border); border-radius:12px; background:var(--bg-card); color:var(--text-main); font-family:inherit; font-size:0.9rem; resize:vertical; outline:none; transition: border-color 0.2s, box-shadow 0.2s;" required></textarea>
+                        <div class="field-error-msg" id="error-contactMsg" style="display:none;"></div>
+                    </div>
+                    <button type="submit" id="contactSubmitBtn" class="btn-hero-primary w-100" style="border-radius:12px; width:100%; cursor:pointer;">
+                        Send Enquiry <i class="fa-solid fa-paper-plane" style="margin-left:8px; font-size:0.85rem;"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================
+         FOOTER
+    ============================= -->
+    <footer class="lp-footer">
+        <div class="lp-footer__top">
+            <div class="f-col-brand" style="display:flex; flex-direction:column; justify-content:flex-start; padding-top:2px;">
+                <a href="#" class="logo-text" style="color:var(--text-main); margin-bottom:15px; display:inline-flex; align-items:center; gap:10px;">
+                    <span class="logo-icon" style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:var(--primary-light); color:var(--primary); font-size:1rem; flex-shrink:0;">
+                        <i class="fa-solid fa-hotel"></i>
+                    </span>
+                    <span style="font-weight:800; font-size:1.3rem; letter-spacing:-0.3px;">NexStay.</span>
+                </a>
+                <p style="font-size:0.85rem; line-height:1.65; color:var(--text-muted); max-width:320px; margin:0;">Simple &amp; Efficient Hostel Management System for Students, Wardens, and Admins.</p>
+            </div>
+            <div class="f-col" style="display:flex; flex-direction:column; padding-top:4px;">
+                <h5>Navigation</h5>
+                <ul style="display:flex; flex-direction:column; gap:8px; margin:0; padding:0;">
+                    <li><a href="#features" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-angle-right" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>Features</span></a></li>
+                    <li><a href="#about" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-angle-right" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>About</span></a></li>
+                    <li><a href="#faq" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-angle-right" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>FAQ</span></a></li>
+                    <li><a href="#contact" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-angle-right" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>Contact Support</span></a></li>
+                </ul>
+            </div>
+            <div class="f-col" style="display:flex; flex-direction:column; padding-top:4px;">
+                <h5>Portals</h5>
+                <ul style="display:flex; flex-direction:column; gap:8px; margin:0; padding:0;">
+                    <li><a href="dashboard.html" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-user-graduate" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>Student Portal</span></a></li>
+                    <li><a href="warden.html" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-user-shield" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>Warden Portal</span></a></li>
+                    <li><a href="admin.html" style="display:inline-flex; align-items:center; gap:8px; padding:2px 0;"><i class="fa-solid fa-shield-halved" style="font-size:0.75rem; color:var(--primary); width:12px;"></i><span>Admin Portal</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="lp-footer__bottom">
+            <p>&copy; 2026 NexStay Project. Submitted for Semester 4 Evaluation. <a href="https://xploreshivam.netlify.app/">SHIVAM CHAUHAN</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+
+    <!-- ============================
+         LOGIN MODAL
+    ============================= -->
+    <div class="glass-overlay modal" id="loginModal">
+        <div class="modal-content" style="border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.1);">
+            <button class="close-btn" onclick="closeLogin()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-weight:700; margin-bottom:10px;">Login Portal</h2>
+            <p>Select your portal and continue.</p>
+            <form onsubmit="handleLogin(); return false;" class="login-form">
+                <div class="input-group">
+                    <div class="role-selector">
+                        <label class="radio-card"><input type="radio" name="role" value="student" checked onchange="handleRoleChange('student')"><span class="card-content">Student</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="warden" onchange="handleRoleChange('warden')"><span class="card-content">Warden</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="admin" onchange="handleRoleChange('admin')"><span class="card-content">Admin</span></label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="loginEmail">Email ID</label>
+                    <div style="position:relative;">
+                        <i class="fa-regular fa-envelope" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--primary); opacity:0.6; pointer-events:none; font-size:0.95rem;"></i>
+                        <input type="email" id="loginEmail" placeholder="student@nexstay.edu" style="padding-left:44px;" autocomplete="username" onkeydown="if(event.key==='Enter') handleLogin()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-lock" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--primary); opacity:0.6; pointer-events:none; font-size:0.95rem;"></i>
+                        <input type="password" id="loginPassword" placeholder="••••••••" style="padding-left:44px;" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Toggle password visibility" title="Show password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary w-100" style="padding:15px; font-weight:700; margin-top:20px;">
+                    Sign In &rarr;
+                </button>
+                <div class="demo-hints">
+                    Demo: <code>student@nexstay.edu</code> &middot; <code>warden@nexstay.edu</code> &middot; <code>admin@nexstay.edu</code><br>
+                    Password: <code>password123</code> (&ge;6 characters)
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/script.js" defer></script>
+    <script>
+    // ---- Theme Toggle Sync & Smooth Scroll ----
+    document.addEventListener('DOMContentLoaded', () => {
+        function updateThemeIcon() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+        }
+        updateThemeIcon();
+
+        const _baseToggle = window.toggleDarkMode;
+        window.toggleDarkMode = function() {
+            if (typeof _baseToggle === 'function') {
+                _baseToggle();
+                updateThemeIcon();
+            }
+        };
+
+        // Smooth scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (!href) return;
+                if (href === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                try {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } catch (err) {
+                    // Ignore invalid selector
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

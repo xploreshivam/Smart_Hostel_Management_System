@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+     PROJECT: NexStay Hostel Management System
+     SUBMITTED BY: [Your Name]
+     ROLL NUMBER: [Your Roll No]
+     SEMESTER: 4
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NexStay: Admin Dashboard Project</title>
+    <meta name="description" content="NexStay Admin Dashboard for campus analytics, fee management, and hostel allocations.">
+    <meta name="theme-color" content="#722F37">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js" defer></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="logo"><i class="fa-solid fa-hotel"></i><span>NexStay</span></div>
+
+            <div class="user-profile" onclick="openProfileModal()" style="cursor:pointer;" title="Edit Profile">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80" alt="Admin" class="avatar" id="sidebarAvatar" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=S+K+Gupta&background=722F37&color=fff&bold=true';">
+                <div class="info">
+                    <h4>Dr. S. K. Gupta</h4>
+                    <p>Director, Operations</p>
+                </div>
+            </div>
+
+            <nav class="side-nav">
+                <a href="#" class="active" onclick="switchAdminTab('overview', this)"><i class="fa-solid fa-grid-2"></i> Overview</a>
+                <a href="#" onclick="switchAdminTab('staff', this)"><i class="fa-solid fa-user-shield"></i> Staff / Wardens</a>
+                <a href="#" onclick="switchAdminTab('blocks', this)"><i class="fa-solid fa-building"></i> Hostel Blocks</a>
+                <a href="#" onclick="switchAdminTab('rooms', this)"><i class="fa-solid fa-bed"></i> Room Status</a>
+                <a href="#" onclick="switchAdminTab('finance', this)"><i class="fa-solid fa-wallet"></i> Finance</a>
+                <a href="#" onclick="switchAdminTab('broadcast', this)"><i class="fa-solid fa-bullhorn"></i> Broadcast</a>
+                <a href="#" onclick="switchAdminTab('audit', this)"><i class="fa-solid fa-list-check"></i> Audit Logs</a>
+            </nav>
+
+            <button class="logout-btn" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </aside>
+
+        <main class="dashboard-content">
+            <!-- TAB 1: OVERVIEW -->
+            <div id="section-overview" class="admin-section">
+                <header class="topbar">
+                    <div>
+                        <h2>System Overview</h2>
+                        <p>Live campus statistics and hostel occupancy data.</p>
+                    </div>
+                    <div class="top-actions">
+                        <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme" style="margin-right:10px;">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                        <button class="btn-secondary"><i class="fa-solid fa-download"></i> Export Report</button>
+                        <button class="btn-primary" onclick="showToast('Add Student form opened!')"><i class="fa-solid fa-plus"></i> Add Student</button>
+                    </div>
+                </header>
+
+                <!-- Admin Analytics Cards -->
+                <div class="grid-cards">
+                    <div class="glass-card stat">
+                        <div class="icon wine"><i class="fa-solid fa-bed"></i></div>
+                        <div class="details">
+                            <p>Total Occupancy</p>
+                            <h3>1,247 <span style="font-size:1rem;color:var(--text-muted);">/ 1500</span></h3>
+                            <small class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> 83% Filled</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon green"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div class="details">
+                            <p>Fees Collected (Sem 4)</p>
+                            <h3>₹1.8 Cr</h3>
+                            <small class="text-success">92% Target Reached</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="details">
+                            <p>Active Issues</p>
+                            <h3>14</h3>
+                            <small class="text-danger">5 maintenance, 9 electrical</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts & Tables Layout -->
+                <div class="dashboard-grid">
+                    
+                    <!-- Chart Section -->
+                    <div class="glass-card flex-col">
+                        <div class="card-header">
+                            <h3>Revenue vs Occupancy Trend</h3>
+                            <select style="padding:4px 8px; border-radius:4px; border:1px solid var(--border-light); font-size:0.8rem;"><option>Semester 4 - 2026</option></select>
+                        </div>
+                        <!-- Canvas for Animated Chart.js -->
+                        <div style="flex:1; position:relative; min-height:250px;">
+                            <canvas id="adminChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Student Data Table (Realistic Mock Data) -->
+                    <div class="glass-card span-2">
+                        <div class="card-header">
+                            <h3>Recent Allocations & Fee Status</h3>
+                            <div style="position:relative;">
+                                <i class="fa-solid fa-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:0.5; font-size:0.8rem;"></i>
+                                <input type="text" placeholder="Search student..." style="padding:8px 14px 8px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit; font-size:0.85rem;">
+                            </div>
+                        </div>
+                        
+                        <div style="overflow-x: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student Info</th>
+                                        <th>Enrollment No.</th>
+                                        <th>Room Allocation</th>
+                                        <th>Fee Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="student-chip">
+                                                <div class="initials" style="background:#3b82f6;">AK</div>
+                                                <div>
+                                                    <div style="font-weight:600;">Aryan Kumar</div>
+                                                    <div style="font-size:0.75rem; color:var(--text-muted);">B.Tech CSE</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="font-family:monospace; color:var(--text-muted);">EN2024001</td>
+                                        <td><span style="font-weight:600;">Block A - 102</span></td>
+                                        <td><span class="badge success">Paid</span></td>
+                                        <td><button class="btn-text">Manage</button></td>
+                                    </tr>
+                                    <tr>
+                                    <tbody id="adminStudentDirectoryBody">
+                                        <!-- Injected by script.js -->
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- END TAB 1 -->
+
+            <!-- TAB 2: STAFF & WARDENS -->
+            <div id="section-staff" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Staff & Wardens</h2><p>Manage hostel security and administrative staff.</p></div>
+                    <button class="btn-primary" onclick="showToast('Add Staff form opened!')"><i class="fa-solid fa-user-plus"></i> Add Staff</button>
+                </header>
+                <div class="glass-card">
+                    <table class="data-table">
+                        <thead><tr><th>Name</th><th>Role</th><th>Assigned Block</th><th>Shift</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Rajiv Sharma</strong></td><td>Chief Warden</td><td>All Blocks</td><td>Day</td><td><span class="badge success">Active</span></td></tr>
+                            <tr><td><strong>Meena Devi</strong></td><td>Warden</td><td>Block A</td><td>Night</td><td><span class="badge success">Active</span></td></tr>
+                            <tr><td><strong>Vikram Singh</strong></td><td>Head Security</td><td>Main Gate</td><td>Night</td><td><span class="badge warning">On Leave</span></td></tr>
+                            <tr><td><strong>Sunita Rao</strong></td><td>Warden</td><td>Block C</td><td>Day</td><td><span class="badge success">Active</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: HOSTEL BLOCKS (Visual Grid) -->
+            <div id="section-blocks" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Hostel Blocks</h2><p>Live occupancy visually represented.</p></div>
+                </header>
+                <div class="grid-cards">
+                    <div class="glass-card stat"><div class="icon blue"><i class="fa-solid fa-building"></i></div><div class="details"><p>Block A (Freshers)</p><h3>400 / 400</h3><small class="text-danger">100% Full</small></div></div>
+                    <div class="glass-card stat"><div class="icon orange"><i class="fa-solid fa-building"></i></div><div class="details"><p>Block B (Seniors)</p><h3>380 / 450</h3><small class="text-success">Available Spaces</small></div></div>
+                    <div class="glass-card stat"><div class="icon wine"><i class="fa-solid fa-building"></i></div><div class="details"><p>Block C (Girls Wing)</p><h3>450 / 450</h3><small class="text-danger">100% Full</small></div></div>
+                </div>
+                <!-- Mini Table under Blocks -->
+                <div class="glass-card" style="margin-top:20px;">
+                    <div class="card-header"><h3>Allocation Requests</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th>Student</th><th>Requested Block</th><th>Date</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td>Karan Patel</td><td>Block B</td><td>Today</td><td><button class="btn-text text-success">Approve</button></td></tr>
+                            <tr><td>Aditi Sharma</td><td>Block C</td><td>Yesterday</td><td><button class="btn-text text-success">Approve</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: ROOM STATUS (NEW FEATURE) -->
+            <div id="section-rooms" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div>
+                        <h2>Room Availability</h2>
+                        <p>Live occupancy status across all blocks.</p>
+                    </div>
+                    <div class="top-actions">
+                         <button class="btn-primary" onclick="exportRoomsToCSV()"><i class="fa-solid fa-file-csv"></i> Download Master CSV</button>
+                         <button class="btn-secondary" onclick="renderRoomStatus(currentBlock)"><i class="fa-solid fa-rotate"></i> Refresh Grid</button>
+                    </div>
+                </header>
+
+                <div class="room-stats-banner">
+                    <div class="stat-item"><h5>Total Vacant</h5><p id="totalVacant">--</p></div>
+                    <div class="stat-item"><h5>Partially Filled</h5><p id="totalPartial">--</p></div>
+                    <div class="stat-item"><h5>Fully Occupied</h5><p id="totalFull">--</p></div>
+                </div>
+
+                <div class="search-filter-bar">
+                    <div class="search-input-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="roomSearchInput" placeholder="Search Room Number..." onkeyup="renderRoomStatus(currentBlock)">
+                    </div>
+                    <select id="statusFilter" class="filter-select" onchange="renderRoomStatus(currentBlock)">
+                        <option value="all">All Status</option>
+                        <option value="available">Available Only</option>
+                        <option value="partial">Partially Filled</option>
+                        <option value="full">Fully Occupied</option>
+                    </select>
+                </div>
+
+                <div class="room-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--success);"></div> Available</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--warning);"></div> Partially Filled</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--danger);"></div> Fully Occupied</div>
+                </div>
+
+                <div class="block-tabs" id="roomBlockFilters">
+                    <button class="btn-secondary active" onclick="updateRoomGrid('Block A', this)">Block A</button>
+                    <button class="btn-secondary" onclick="updateRoomGrid('Block B', this)">Block B</button>
+                    <button class="btn-secondary" onclick="updateRoomGrid('Block C', this)">Block C</button>
+                </div>
+
+                <div id="roomGridContainer" class="room-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+
+            <!-- TAB 4: FINANCE -->
+            <div id="section-finance" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Finance Ledger</h2><p>All real-time transactions & refunds.</p></div>
+                    <button class="btn-secondary"><i class="fa-solid fa-file-invoice"></i> Download Ledgers</button>
+                </header>
+                <div class="glass-card">
+                    <table class="data-table">
+                        <thead><tr><th>Txn ID</th><th>Category</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>#TX-8821</td><td>Mess Fee</td><td style="color:var(--success);font-weight:700;">+ ₹12,500</td><td>Today</td><td><span class="badge success">Cleared</span></td></tr>
+                            <tr><td>#TX-8820</td><td>Wifi Maintenance</td><td style="color:var(--danger);font-weight:700;">- ₹8,000</td><td>Yesterday</td><td><span class="badge danger">Debited</span></td></tr>
+                            <tr><td>#TX-8819</td><td>Refund (Deposit)</td><td style="color:var(--warning);font-weight:700;">₹5,000</td><td>April 10, 2026</td><td><span class="badge warning">Processing</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 5: BROADCAST -->
+            <div id="section-broadcast" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Emergency Broadcast</h2><p>Send instant SMS and Push Notifications.</p></div>
+                </header>
+                <div class="glass-card" style="max-width:600px; margin:0 auto;">
+                    <div class="input-group" style="margin-bottom:20px;">
+                        <label>Select Target Audience</label>
+                        <select style="width:100%; padding:12px; background:var(--bg-section); border:1px solid var(--border); border-radius:8px;">
+                            <option>All Students (1,247)</option>
+                            <option>Only Block A</option>
+                            <option>Staff & Wardens Only</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="margin-bottom:20px;">
+                        <label>Message Content (SMS length)</label>
+                        <textarea rows="4" placeholder="Type your alert here..." style="width:100%; padding:12px; background:var(--bg-section); border:1px solid var(--border); border-radius:8px; font-family:inherit;"></textarea>
+                    </div>
+                    <button class="btn-danger w-100 btn-pill" style="padding:16px; font-size:1rem;" onclick="showToast('Alert broadcasted successfully to all devices!', 'success')">
+                        <i class="fa-solid fa-paper-plane"></i> Send Alert Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 6: AUDIT LOGS -->
+            <div id="section-audit" class="admin-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Security Audit Logs</h2><p>Action logs of system admins and wardens.</p></div>
+                    <button class="btn-secondary"><i class="fa-solid fa-download"></i> Export Logs</button>
+                </header>
+                <div class="glass-card">
+                    <div style="padding:16px; border-bottom:1px solid var(--border-light);">
+                        <span style="color:var(--primary);font-weight:700;font-size:0.85rem;">10:45 AM</span> 
+                        <span style="margin-left:10px;">Warden Meena Devi <strong>approved</strong> Leave Request #402.</span>
+                    </div>
+                    <div style="padding:16px; border-bottom:1px solid var(--border-light);">
+                        <span style="color:var(--primary);font-weight:700;font-size:0.85rem;">09:15 AM</span> 
+                        <span style="margin-left:10px;">SuperAdmin logged in from IP 192.168.1.5</span>
+                    </div>
+                    <div style="padding:16px;">
+                        <span style="color:var(--danger);font-weight:700;font-size:0.85rem;">08:00 AM</span> 
+                        <span style="margin-left:10px; color:var(--danger); font-weight:600;">System Warning: Fire Alarm triggered in Block C (Resolved).</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+       <!-- PROFILE SETTINGS MODAL (Content injected by script.js) -->
+    <div class="glass-overlay modal" id="profileModal">
+        <div class="modal-content" style="max-width: 440px;">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+   </div>
+
+    <div id="toast-container"></div>
+    <script src="./js/script.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initialize Animated Admin Graph
+            const ctx = document.getElementById('adminChart');
+            if(ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Fees Collected (in Lakhs)',
+                            data: [120, 180, 45, 50, 30, 20],
+                            backgroundColor: 'rgba(114, 47, 55, 0.85)', // Wine Red Theme
+                            borderRadius: 6,
+                            barPercentage: 0.6
+                        }, {
+                            label: 'Occupancy Target',
+                            data: [150, 150, 150, 150, 150, 150],
+                            type: 'line',
+                            borderColor: '#b8860b', // Gold Accent
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // 2. LocalStorage Check (Priya's Payment Linkage)
+            // If Priya paid her fee in the Student Dashboard, show "Paid" here.
+
+            const priyaStatus = document.getElementById('priyaAdminFeeStatus');
+            if(priyaStatus && localStorage.getItem('nexstay_fee_paid') === 'true') {
+                priyaStatus.className = 'badge success';
+                priyaStatus.innerText = 'Paid via UPI';
+            }
+        });
+    </script>
+
+</body>
+</html>

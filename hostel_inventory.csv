@@ -1,0 +1,216 @@
+Block,Room_Number,Type,Occupancy,Capacity,Condition,Student_ID,Student_Name,Course,Semester
+Block A,1,Non-AC,0,2,Maintenance,N/A,N/A,N/A,N/A
+Block A,2,AC,2,2,Good,DB2024001,Ishaan L.,B.Arch,2
+Block A,2,AC,2,2,Good,BT2024002,Amit T.,AI & ML,3
+Block A,3,Non-AC,2,3,Good,MBA2024003,Aditya V.,M.Tech,6
+Block A,3,Non-AC,2,3,Good,LBC2024004,Vikash Q.,AI & ML,8
+Block A,4,Non-AC,1,2,Good,DB2024005,Arnav M.,BCA,5
+Block A,5,Non-AC,0,3,Maintenance,N/A,N/A,N/A,N/A
+Block A,6,AC,1,2,Maintenance,DB2024006,Yash D.,MBA,7
+Block A,7,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,8,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,9,AC,1,2,Good,MCA2024007,Yash X.,B.Com,5
+Block A,10,AC,1,2,Good,BT2024008,Vikash T.,AI & ML,5
+Block A,11,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,12,AC,1,2,Good,DB2024009,Amit M.,B.Com,6
+Block A,13,AC,2,2,Good,BT2024010,Aditya F.,B.Arch,3
+Block A,13,AC,2,2,Good,MCA2024011,Kabir D.,AI & ML,7
+Block A,14,AC,3,3,Good,DB2024012,Rahul Z.,B.Arch,7
+Block A,14,AC,3,3,Good,LBC2024013,Sumit B.,M.Tech,5
+Block A,14,AC,3,3,Good,BT2024014,Vikash P.,M.Tech,6
+Block A,15,AC,1,2,Good,LBC2024015,Yash R.,AI & ML,8
+Block A,16,Non-AC,2,2,Good,MCA2024016,Yash R.,BCA,7
+Block A,16,Non-AC,2,2,Good,LBC2024017,Yash W.,BCA,8
+Block A,17,Non-AC,2,2,Good,MBA2024018,Yash V.,B.Tech CSE,1
+Block A,17,Non-AC,2,2,Good,BC2024019,Sumit J.,M.Tech,8
+Block A,18,AC,2,2,Good,MCA2024020,Rahul T.,MBA,6
+Block A,18,AC,2,2,Good,BT2024021,Rohan F.,B.Tech CSE,3
+Block A,19,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,20,AC,3,3,Good,MBA2024022,Sarthak J.,B.Arch,5
+Block A,20,AC,3,3,Good,BC2024023,Arnav E.,M.Tech,2
+Block A,20,AC,3,3,Good,DB2024024,Sumit D.,B.Com,2
+Block A,21,Non-AC,3,3,Maintenance,LBC2024025,Kabir A.,BCA,6
+Block A,21,Non-AC,3,3,Maintenance,LBC2024026,Sarthak Y.,B.Arch,4
+Block A,21,Non-AC,3,3,Maintenance,DB2024027,Rohan I.,B.Arch,3
+Block A,22,AC,3,3,Good,MBA2024028,Rahul N.,AI & ML,3
+Block A,22,AC,3,3,Good,LBC2024029,Arnav M.,MBA,3
+Block A,22,AC,3,3,Good,DB2024030,Arnav M.,B.Com,6
+Block A,23,AC,1,2,Good,LBC2024031,Aditya G.,B.Tech CSE,1
+Block A,24,AC,1,2,Good,DB2024032,Kabir I.,MBA,4
+Block A,25,AC,2,2,Good,MBA2024033,Kabir G.,M.Tech,1
+Block A,25,AC,2,2,Good,BT2024034,Yash Y.,MBA,1
+Block A,26,AC,3,3,Good,BC2024035,Rohan G.,MBA,5
+Block A,26,AC,3,3,Good,BC2024036,Sumit K.,BCA,2
+Block A,26,AC,3,3,Good,DB2024037,Amit L.,AI & ML,3
+Block A,27,AC,3,3,Good,DB2024038,Rahul Z.,B.Arch,2
+Block A,27,AC,3,3,Good,BC2024039,Ishaan D.,Design,8
+Block A,27,AC,3,3,Good,BT2024040,Arnav D.,B.Arch,6
+Block A,28,Non-AC,2,3,Maintenance,LBC2024041,Karan A.,AI & ML,4
+Block A,28,Non-AC,2,3,Maintenance,BT2024042,Amit L.,AI & ML,1
+Block A,29,Non-AC,1,2,Maintenance,BC2024043,Sumit O.,B.Tech CSE,4
+Block A,30,Non-AC,2,2,Good,MCA2024044,Rahul A.,MBA,6
+Block A,30,Non-AC,2,2,Good,BC2024045,Ishaan D.,M.Tech,8
+Block A,31,Non-AC,2,3,Good,BT2024046,Kabir L.,MBA,4
+Block A,31,Non-AC,2,3,Good,MBA2024047,Arnav X.,B.Com,4
+Block A,32,AC,1,3,Good,BT2024048,Amit G.,BCA,6
+Block A,33,AC,3,3,Good,BT2024049,Rahul Z.,MBA,2
+Block A,33,AC,3,3,Good,BC2024050,Amit T.,MBA,8
+Block A,33,AC,3,3,Good,DB2024051,Sumit F.,BCA,4
+Block A,34,Non-AC,2,2,Good,DB2024052,Aditya A.,Design,4
+Block A,34,Non-AC,2,2,Good,MCA2024053,Yash I.,B.Com,6
+Block A,35,Non-AC,1,2,Good,BT2024054,Amit V.,BCA,4
+Block A,36,Non-AC,2,2,Good,MCA2024055,Rahul U.,B.Arch,1
+Block A,36,Non-AC,2,2,Good,MBA2024056,Kabir A.,MBA,7
+Block A,37,Non-AC,2,2,Good,LBC2024057,Kabir S.,BCA,6
+Block A,37,Non-AC,2,2,Good,MCA2024058,Aditya L.,AI & ML,7
+Block A,38,Non-AC,2,2,Good,MBA2024059,Amit G.,MBA,4
+Block A,38,Non-AC,2,2,Good,DB2024060,Amit Q.,BCA,2
+Block A,39,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,40,Non-AC,1,2,Good,BT2024061,Rohan K.,B.Arch,3
+Block A,41,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,42,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,43,Non-AC,2,2,Good,BC2024062,Amit I.,Design,3
+Block A,43,Non-AC,2,2,Good,DB2024063,Amit Z.,B.Arch,4
+Block A,44,AC,1,2,Good,BC2024064,Ishaan K.,B.Com,2
+Block A,45,AC,1,2,Maintenance,DB2024065,Yash Q.,M.Tech,7
+Block A,46,AC,3,3,Good,MCA2024066,Ishaan E.,BCA,2
+Block A,46,AC,3,3,Good,DB2024067,Kabir C.,MBA,3
+Block A,46,AC,3,3,Good,LBC2024068,Amit H.,M.Tech,6
+Block A,47,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block A,48,Non-AC,1,3,Good,MBA2024069,Arnav A.,BCA,3
+Block A,49,Non-AC,1,2,Good,MCA2024070,Yash F.,B.Arch,5
+Block A,50,AC,2,2,Good,BC2024071,Karan W.,B.Com,6
+Block A,50,AC,2,2,Good,LBC2024072,Rahul Z.,MBA,8
+Block B,1,AC,0,3,Good,N/A,N/A,N/A,N/A
+Block B,2,Non-AC,1,2,Good,LBC2024073,Ishaan M.,M.Tech,2
+Block B,3,AC,1,2,Maintenance,LBC2024074,Sarthak H.,BCA,4
+Block B,4,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,5,Non-AC,3,3,Good,MBA2024075,Kabir F.,B.Arch,3
+Block B,5,Non-AC,3,3,Good,MBA2024076,Yash W.,B.Com,5
+Block B,5,Non-AC,3,3,Good,MBA2024077,Vikash F.,MBA,5
+Block B,6,AC,2,3,Good,BC2024078,Sumit S.,M.Tech,3
+Block B,6,AC,2,3,Good,BC2024079,Ishaan C.,B.Tech CSE,1
+Block B,7,AC,1,2,Good,DB2024080,Arnav R.,M.Tech,1
+Block B,8,Non-AC,2,3,Good,MCA2024081,Sumit I.,BCA,4
+Block B,8,Non-AC,2,3,Good,MBA2024082,Yash M.,B.Arch,5
+Block B,9,Non-AC,1,2,Good,LBC2024083,Rahul D.,MBA,7
+Block B,10,AC,1,2,Good,BC2024084,Kabir W.,B.Arch,8
+Block B,11,AC,0,2,Maintenance,N/A,N/A,N/A,N/A
+Block B,12,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,13,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,14,Non-AC,3,3,Good,MCA2024085,Karan O.,BCA,8
+Block B,14,Non-AC,3,3,Good,MCA2024086,Rohan I.,B.Tech CSE,8
+Block B,14,Non-AC,3,3,Good,MCA2024087,Yash H.,Design,5
+Block B,15,Non-AC,1,2,Good,BT2024088,Yash O.,BCA,6
+Block B,16,AC,0,2,Maintenance,N/A,N/A,N/A,N/A
+Block B,17,Non-AC,2,2,Good,MBA2024089,Aditya M.,M.Tech,4
+Block B,17,Non-AC,2,2,Good,DB2024090,Arnav Q.,Design,4
+Block B,18,Non-AC,1,2,Maintenance,MBA2024091,Rahul I.,MBA,5
+Block B,19,AC,2,2,Good,BC2024092,Aditya P.,M.Tech,4
+Block B,19,AC,2,2,Good,BT2024093,Vikash M.,MBA,7
+Block B,20,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,21,Non-AC,1,2,Good,BC2024094,Kabir K.,B.Arch,6
+Block B,22,Non-AC,1,2,Good,MCA2024095,Aditya U.,M.Tech,1
+Block B,23,Non-AC,2,3,Good,BC2024096,Arnav G.,Design,7
+Block B,23,Non-AC,2,3,Good,DB2024097,Rahul F.,AI & ML,5
+Block B,24,Non-AC,2,2,Good,LBC2024098,Kabir M.,B.Tech CSE,4
+Block B,24,Non-AC,2,2,Good,MBA2024099,Aditya X.,Design,1
+Block B,25,Non-AC,2,3,Maintenance,LBC2024100,Arnav C.,M.Tech,1
+Block B,25,Non-AC,2,3,Maintenance,MBA2024101,Sarthak K.,Design,5
+Block B,26,Non-AC,1,3,Good,DB2024102,Sarthak O.,MBA,7
+Block B,27,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,28,AC,2,3,Good,BT2024103,Arnav T.,AI & ML,5
+Block B,28,AC,2,3,Good,DB2024104,Rahul T.,M.Tech,4
+Block B,29,AC,1,2,Maintenance,MCA2024105,Sarthak C.,BCA,7
+Block B,30,AC,1,3,Good,MBA2024106,Aditya S.,Design,3
+Block B,31,Non-AC,2,2,Maintenance,LBC2024107,Ishaan T.,B.Tech CSE,3
+Block B,31,Non-AC,2,2,Maintenance,MBA2024108,Rohan N.,AI & ML,3
+Block B,32,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,33,Non-AC,1,3,Good,BC2024109,Amit H.,B.Tech CSE,7
+Block B,34,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,35,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,36,AC,1,2,Good,MCA2024110,Vikash H.,MBA,2
+Block B,37,Non-AC,2,2,Good,MBA2024111,Sarthak D.,B.Arch,1
+Block B,37,Non-AC,2,2,Good,MCA2024112,Karan C.,B.Tech CSE,2
+Block B,38,AC,2,2,Maintenance,DB2024113,Rohan W.,AI & ML,7
+Block B,38,AC,2,2,Maintenance,BC2024114,Rohan C.,B.Tech CSE,8
+Block B,39,AC,1,2,Good,BT2024115,Sarthak B.,M.Tech,5
+Block B,40,Non-AC,2,3,Good,DB2024116,Aditya Z.,AI & ML,4
+Block B,40,Non-AC,2,3,Good,MBA2024117,Amit E.,MBA,7
+Block B,41,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,42,AC,0,3,Good,N/A,N/A,N/A,N/A
+Block B,43,Non-AC,1,2,Good,LBC2024118,Amit Z.,B.Com,4
+Block B,44,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,45,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,46,AC,1,2,Good,BT2024119,Rohan H.,Design,7
+Block B,47,Non-AC,2,2,Maintenance,BT2024120,Rahul Y.,B.Com,4
+Block B,47,Non-AC,2,2,Maintenance,MCA2024121,Rohan I.,B.Tech CSE,5
+Block B,48,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,49,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block B,50,AC,1,2,Good,MCA2024122,Kabir P.,MBA,2
+Block C,1,AC,2,2,Maintenance,LBC2024123,Neha H.,MBA,8
+Block C,1,AC,2,2,Maintenance,DB2024124,Komal B.,MBA,8
+Block C,2,Non-AC,2,2,Good,BC2024125,Diya S.,M.Tech,4
+Block C,2,Non-AC,2,2,Good,LBC2024126,Sneha I.,B.Tech CSE,7
+Block C,3,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,4,Non-AC,2,2,Maintenance,MBA2024127,Maya X.,M.Tech,1
+Block C,4,Non-AC,2,2,Maintenance,BT2024128,Diya D.,B.Tech CSE,7
+Block C,5,AC,1,2,Good,MBA2024129,Ritu Z.,B.Tech CSE,6
+Block C,6,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,7,AC,2,2,Maintenance,MCA2024130,Sanya P.,B.Com,7
+Block C,7,AC,2,2,Maintenance,DB2024131,Anu R.,M.Tech,4
+Block C,8,AC,3,3,Maintenance,MCA2024132,Diya W.,BCA,3
+Block C,8,AC,3,3,Maintenance,MCA2024133,Mehak A.,Design,7
+Block C,8,AC,3,3,Maintenance,MBA2024134,Sanya L.,B.Com,2
+Block C,9,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,10,AC,1,2,Good,LBC2024135,Maya Z.,AI & ML,8
+Block C,11,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,12,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,13,Non-AC,1,2,Good,BT2024136,Neha T.,B.Tech CSE,6
+Block C,14,AC,1,3,Good,MBA2024137,Heena W.,B.Tech CSE,4
+Block C,15,AC,1,2,Good,MBA2024138,Zoya E.,MBA,8
+Block C,16,Non-AC,2,3,Maintenance,MCA2024139,Anu P.,B.Tech CSE,5
+Block C,16,Non-AC,2,3,Maintenance,BC2024140,Maya T.,B.Com,4
+Block C,17,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,18,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,19,AC,1,2,Good,MCA2024141,Heena T.,Design,3
+Block C,20,Non-AC,1,2,Good,BT2024142,Sanya Q.,M.Tech,6
+Block C,21,AC,2,2,Good,MBA2024143,Diya S.,AI & ML,5
+Block C,21,AC,2,2,Good,DB2024144,Zoya E.,BCA,6
+Block C,22,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,23,AC,1,3,Good,BC2024145,Diya P.,B.Com,4
+Block C,24,Non-AC,1,2,Good,LBC2024146,Anu Y.,BCA,8
+Block C,25,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,26,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,27,AC,1,2,Good,BC2024147,Zoya F.,B.Com,6
+Block C,28,Non-AC,1,3,Good,MBA2024148,Anu K.,B.Tech CSE,8
+Block C,29,Non-AC,1,2,Good,BT2024149,Neha V.,B.Com,8
+Block C,30,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,31,Non-AC,0,2,Maintenance,N/A,N/A,N/A,N/A
+Block C,32,AC,3,3,Good,MCA2024150,Heena G.,MBA,7
+Block C,32,AC,3,3,Good,MCA2024151,Anu U.,M.Tech,4
+Block C,32,AC,3,3,Good,MCA2024152,Komal K.,M.Tech,8
+Block C,33,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,34,Non-AC,2,2,Maintenance,MCA2024153,Diya A.,AI & ML,2
+Block C,34,Non-AC,2,2,Maintenance,BC2024154,Mehak W.,B.Arch,3
+Block C,35,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,36,Non-AC,0,3,Maintenance,N/A,N/A,N/A,N/A
+Block C,37,Non-AC,2,2,Maintenance,MCA2024155,Diya C.,B.Tech CSE,7
+Block C,37,Non-AC,2,2,Maintenance,MBA2024156,Maya J.,M.Tech,6
+Block C,38,Non-AC,0,3,Maintenance,N/A,N/A,N/A,N/A
+Block C,39,AC,2,2,Good,MBA2024157,Zoya Y.,AI & ML,1
+Block C,39,AC,2,2,Good,DB2024158,Neha H.,M.Tech,2
+Block C,40,Non-AC,1,2,Good,LBC2024159,Priya V.,B.Com,5
+Block C,41,Non-AC,2,3,Maintenance,DB2024160,Komal Q.,B.Arch,1
+Block C,41,Non-AC,2,3,Maintenance,DB2024161,Zoya O.,AI & ML,2
+Block C,42,AC,1,2,Good,MBA2024162,Zoya Y.,B.Arch,5
+Block C,43,Non-AC,2,2,Good,LBC2024163,Diya U.,B.Tech CSE,3
+Block C,43,Non-AC,2,2,Good,MBA2024164,Diya Q.,MBA,8
+Block C,44,AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,45,AC,1,3,Good,MBA2024165,Sneha H.,Design,5
+Block C,46,AC,0,3,Maintenance,N/A,N/A,N/A,N/A
+Block C,47,Non-AC,1,3,Good,LBC2024166,Maya N.,M.Tech,1
+Block C,48,AC,2,2,Good,BT2024167,Sneha H.,B.Arch,6
+Block C,48,AC,2,2,Good,BC2024168,Sneha M.,AI & ML,3
+Block C,49,Non-AC,0,2,Good,N/A,N/A,N/A,N/A
+Block C,50,AC,0,3,Good,N/A,N/A,N/A,N/A

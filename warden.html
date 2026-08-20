@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+     PROJECT: NexStay Hostel Management System
+     SUBMITTED BY: [Your Name]
+     ROLL NUMBER: [Your Roll No]
+     SEMESTER: 4
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NexStay: Warden Dashboard Project</title>
+    <meta name="description" content="NexStay Warden Dashboard for block management, student gate pass approvals, and complaints.">
+    <meta name="theme-color" content="#722F37">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="logo"><i class="fa-solid fa-hotel"></i><span>NexStay</span></div>
+
+            <div class="user-profile" onclick="openProfileModal()" style="cursor:pointer;" title="Edit Profile">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80" alt="Warden" class="avatar" id="sidebarAvatar" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rajesh+Kumar&background=722F37&color=fff&bold=true';">
+                <div class="info">
+                    <h4>Mr. Rajesh Kumar</h4>
+                    <p>Block-C Warden</p>
+                </div>
+            </div>
+
+            <nav class="side-nav">
+                <a href="#" class="active" onclick="switchWardenTab('overview', this)"><i class="fa-solid fa-chart-line"></i> Overview</a>
+                <a href="#" onclick="switchWardenTab('attendance', this)"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+                <a href="#" onclick="switchWardenTab('leave', this)"><i class="fa-solid fa-envelope-open-text"></i> Leave Requests <span class="badge danger" style="margin-left:auto;">5</span></a>
+                <a href="#" onclick="switchWardenTab('complaints', this)"><i class="fa-solid fa-triangle-exclamation"></i> Complaints</a>
+                <a href="#" onclick="switchWardenTab('rooms', this)"><i class="fa-solid fa-bed"></i> Room Status</a>
+                <a href="#" onclick="switchWardenTab('students', this)"><i class="fa-solid fa-users"></i> Student Records</a>
+                <a href="#" onclick="switchWardenTab('announcements', this)"><i class="fa-solid fa-bell"></i> Announcements</a>
+            </nav>
+
+            <button class="logout-btn" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </aside>
+
+        <main class="dashboard-content">
+
+            <!-- TAB 1: OVERVIEW -->
+            <div id="section-overview" class="warden-section">
+                <header class="topbar">
+                    <div>
+                        <h2>Warden Control Panel</h2>
+                        <p>Block-C · 15 pending actions today · Thursday, Apr 10</p>
+                    </div>
+                    <div class="top-actions">
+                        <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                        <button class="btn-secondary" onclick="exportData()">
+                            <i class="fa-solid fa-file-csv"></i> Export
+                        </button>
+                        <button class="btn-primary" onclick="generateReport()">
+                            <i class="fa-solid fa-print"></i> Generate Report
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Stats -->
+                <div class="grid-cards">
+                    <div class="glass-card stat">
+                        <div class="icon blue"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="details">
+                            <p>Total Students</p>
+                            <h3>240</h3>
+                            <small>Block-C capacity</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon orange"><i class="fa-solid fa-door-closed"></i></div>
+                        <div class="details">
+                            <p>Currently Out</p>
+                            <h3>18 <span style="font-size:0.75rem;" class="text-danger">Late: 2</span></h3>
+                            <small>On approved leave</small>
+                        </div>
+                    </div>
+                    <div class="glass-card stat">
+                        <div class="icon green"><i class="fa-solid fa-bed"></i></div>
+                        <div class="details">
+                            <p>Vacant Beds</p>
+                            <h3>12</h3>
+                            <small>Available this semester</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Leave Requests Table -->
+                    <div class="glass-card span-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-envelope-open-text" style="color:var(--primary);margin-right:8px;"></i>Pending Leave Requests</h3>
+                            <button class="btn-text" onclick="switchWardenTab('leave', document.querySelector('nav a:nth-child(3)'))">View All</button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Reason</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="row-amit">
+                                    <td>
+                                        <div class="student-chip">
+                                            <div class="initials">AS</div>
+                                            Amit Singh (C-201)
+                                        </div>
+                                    </td>
+                                    <td>Family Function</td>
+                                    <td>3 Days</td>
+                                    <td class="status-cell"><span class="badge warning">Pending</span></td>
+                                    <td class="action-cell">
+                                        <button class="btn-text text-success approve-btn" onclick="approveLeave('Amit Singh', document.getElementById('row-amit'))">Approve</button>
+                                        <button class="btn-text text-danger" style="margin-left:12px;" onclick="rejectLeave('Amit Singh', document.getElementById('row-amit'))">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr id="row-rohan">
+                                    <td>
+                                        <div class="student-chip">
+                                            <div class="initials" style="background:var(--gold);">RK</div>
+                                            Rohan Kapur (C-405)
+                                        </div>
+                                    </td>
+                                    <td>Medical Emergency</td>
+                                    <td>1 Day</td>
+                                    <td class="status-cell"><span class="badge warning">Pending</span></td>
+                                    <td class="action-cell">
+                                        <button class="btn-text text-success approve-btn" onclick="approveLeave('Rohan Kapur', document.getElementById('row-rohan'))">Approve</button>
+                                        <button class="btn-text text-danger" style="margin-left:12px;" onclick="rejectLeave('Rohan Kapur', document.getElementById('row-rohan'))">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-chip">
+                                            <div class="initials" style="background:var(--success);">NM</div>
+                                            Nisha Mehta (C-108)
+                                        </div>
+                                    </td>
+                                    <td>Festival Holiday</td>
+                                    <td>5 Days</td>
+                                    <td class="status-cell"><span class="badge success">Approved</span></td>
+                                    <td class="action-cell"><span class="text-muted" style="font-size:0.82rem;">Processed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Quick Attendance -->
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-user-check" style="color:var(--primary);margin-right:8px;"></i>Quick Attendance</h3>
+                        </div>
+                        <input type="text" class="attendance-input" placeholder="Search by Student ID or Name..." oninput="searchAttendance(this)">
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-section);border-radius:10px;">
+                                <div>
+                                    <div style="font-weight:600;font-size:0.88rem;">Priya Sharma</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">C-405</div>
+                                </div>
+                                <span class="badge success">Present</span>
+                            </div>
+                            <div id="sameer-row" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-section);border-radius:10px;">
+                                <div>
+                                    <div style="font-weight:600;font-size:0.88rem;">Sameer Khan</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">C-102</div>
+                                </div>
+                                <button id="sameer-btn" class="btn-primary btn-pill" style="padding:6px 16px;font-size:0.78rem;" onclick="markAttendance('Sameer Khan', this)">Mark In</button>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(185,28,28,0.04);border-radius:10px;border-left:3px solid var(--danger);">
+                                <div>
+                                    <div style="font-weight:600;font-size:0.88rem;">Arjun Verma</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">C-303</div>
+                                </div>
+                                <span class="badge danger">Late</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- END TAB 1 -->
+
+            <!-- TAB 2: ATTENDANCE -->
+            <div id="section-attendance" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Attendance Register</h2><p>Mark biometric exceptions and proxy roll calls.</p></div>
+                    <button class="btn-primary"><i class="fa-solid fa-fingerprint"></i> Sync Biometric</button>
+                </header>
+                <div class="glass-card">
+                    <div style="display:flex; gap:15px; margin-bottom:20px;">
+                        <input type="date" value="2026-04-10" style="padding:10px 14px; border:1px solid var(--border-light); border-radius:8px; outline:none; font-family:inherit;">
+                        <select style="padding:10px 14px; border:1px solid var(--border-light); border-radius:8px; outline:none; font-family:inherit;">
+                            <option>All Floors</option>
+                            <option>Ground Floor</option>
+                            <option>Floor 1</option>
+                            <option>Floor 2</option>
+                        </select>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>Room</th><th>Student Name</th><th>IN Time (Yesterday)</th><th>Current Status</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td><span style="font-weight:600;">C-101</span></td><td>Aarav Mehta</td><td>21:45</td><td><span class="badge success">In Campus</span></td><td><button class="btn-text text-muted">Update</button></td></tr>
+                            <tr><td><span style="font-weight:600;">C-102</span></td><td>Sameer Khan</td><td>--</td><td><span class="badge danger">Absent</span></td><td><button class="btn-text text-primary">Mark Present</button></td></tr>
+                            <tr><td><span style="font-weight:600;">C-103</span></td><td>Vikram Batra</td><td>23:15</td><td><span class="badge warning">Late Entry</span></td><td><button class="btn-text text-muted">Update</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: LEAVE REQUESTS -->
+            <div id="section-leave" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Leave Approvals</h2><p>5 requests pending your authorization.</p></div>
+                </header>
+                <div class="glass-card">
+                    <table class="data-table">
+                        <thead><tr><th>Student</th><th>Dates</th><th>Type</th><th>Guardian Consent</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr id="tab-l-1">
+                                <td><strong>Nitin Kumar</strong> <small>(C-305)</small></td>
+                                <td>Apr 12 - Apr 15</td>
+                                <td>Home Visit</td>
+                                <td><span class="text-success"><i class="fa-solid fa-check-circle"></i> Verified</span></td>
+                                <td class="action-cell">
+                                    <button class="btn-text text-success" onclick="approveLeave('Nitin', document.getElementById('tab-l-1'))">Approve</button>
+                                    <button class="btn-text text-danger" style="margin-left:10px;">Reject</button>
+                                </td>
+                            </tr>
+                            <tr id="tab-l-2">
+                                <td><strong>Rahul Dubey</strong> <small>(C-410)</small></td>
+                                <td>Apr 14</td>
+                                <td>Local Outing</td>
+                                <td><span class="text-muted"><i class="fa-solid fa-minus"></i> N/A</span></td>
+                                <td class="action-cell">
+                                    <button class="btn-text text-success" onclick="approveLeave('Rahul', document.getElementById('tab-l-2'))">Approve</button>
+                                    <button class="btn-text text-danger" style="margin-left:10px;">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: COMPLAINTS -->
+            <div id="section-complaints" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Hostel Issues & Complaints</h2><p>Track maintenance and discipline reports.</p></div>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="glass-card span-2">
+                        <table class="data-table">
+                            <thead><tr><th>Ticket ID</th><th>Reported By</th><th>Category</th><th>Details</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>#TKT-902</td>
+                                    <td>Ankit (C-204)</td>
+                                    <td><span class="badge" style="background:#fef3c7; color:#d97706;">Electrical</span></td>
+                                    <td>Fan regulator not working.</td>
+                                    <td><select style="border:1px solid var(--border-light);border-radius:4px;padding:2px;"><option>Open</option><option>In Progress</option><option>Resolved</option></select></td>
+                                </tr>
+                                <tr>
+                                    <td>#TKT-895</td>
+                                    <td>Sahil (C-105)</td>
+                                    <td><span class="badge" style="background:#fee2e2; color:#b91c1c;">Discipline</span></td>
+                                    <td>Loud music at 2 AM on 1st Floor.</td>
+                                    <td><select style="border:1px solid var(--border-light);border-radius:4px;padding:2px;"><option>Resolved</option><option>Open</option></select></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: STUDENT RECORDS -->
+            <div id="section-students" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Student Directory</h2><p>Full database for Block-C.</p></div>
+                    <div style="position:relative;">
+                        <input type="text" placeholder="Search by name, room..." style="padding:10px 14px 10px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit;">
+                        <i class="fa-solid fa-search" style="position:absolute; left:12px; top:12px; color:var(--text-muted);"></i>
+                    </div>
+                </header>
+                <div class="glass-card">
+                    <table class="data-table">
+                        <thead><tr><th>Enrollment</th><th>Name</th><th>Room</th><th>Course</th><th>Contact</th></tr></thead>
+                        <tbody id="studentDirectoryBody">
+                            <!-- Injected by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: ROOM STATUS (REPLICATED FROM ADMIN) -->
+            <div id="section-rooms" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div>
+                        <h2>Room Availability</h2>
+                        <p>Live occupancy status across all blocks.</p>
+                    </div>
+                    <div class="top-actions">
+                         <button class="btn-primary" onclick="exportRoomsToCSV()"><i class="fa-solid fa-file-csv"></i> Download Master CSV</button>
+                         <button class="btn-secondary" onclick="renderRoomStatus(currentBlock)"><i class="fa-solid fa-rotate"></i> Refresh Grid</button>
+                    </div>
+                </header>
+
+                <div class="room-stats-banner">
+                    <div class="stat-item"><h5>Total Vacant</h5><p id="totalVacant">--</p></div>
+                    <div class="stat-item"><h5>Partially Filled</h5><p id="totalPartial">--</p></div>
+                    <div class="stat-item"><h5>Fully Occupied</h5><p id="totalFull">--</p></div>
+                </div>
+
+                <div class="search-filter-bar">
+                    <div class="search-input-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="roomSearchInput" placeholder="Search Room Number..." onkeyup="renderRoomStatus(currentBlock)">
+                    </div>
+                    <select id="statusFilter" class="filter-select" onchange="renderRoomStatus(currentBlock)">
+                        <option value="all">All Status</option>
+                        <option value="available">Available Only</option>
+                        <option value="partial">Partially Filled</option>
+                        <option value="full">Fully Occupied</option>
+                    </select>
+                </div>
+
+                <div class="room-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--success);"></div> Available</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--warning);"></div> Partially Filled</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:var(--danger);"></div> Fully Occupied</div>
+                </div>
+
+                <div class="block-tabs" id="roomBlockFilters">
+                    <button class="btn-secondary active" onclick="updateRoomGrid('Block A', this)">Block A</button>
+                    <button class="btn-secondary" onclick="updateRoomGrid('Block B', this)">Block B</button>
+                    <button class="btn-secondary" onclick="updateRoomGrid('Block C', this)">Block C</button>
+                </div>
+
+                <div id="roomGridContainer" class="room-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+
+            <!-- TAB 6: ANNOUNCEMENTS -->
+            <div id="section-announcements" class="warden-section" style="display:none;">
+                <header class="topbar">
+                    <div><h2>Block Announcements</h2><p>Send notices to Block-C students directly.</p></div>
+                </header>
+                <div class="glass-card" style="max-width:500px; margin:0 auto;">
+                    <div class="input-group" style="margin-bottom:20px;">
+                        <label>Notice Heading</label>
+                        <input type="text" placeholder="e.g. Mandatory Block Meeting" style="width:100%; padding:12px; background:var(--bg-section); border:1px solid var(--border); border-radius:8px;">
+                    </div>
+                    <div class="input-group" style="margin-bottom:20px;">
+                        <label>Notice Content</label>
+                        <textarea rows="4" placeholder="Detail your announcement here..." style="width:100%; padding:12px; background:var(--bg-section); border:1px solid var(--border); border-radius:8px; font-family:inherit;"></textarea>
+                    </div>
+                    <button class="btn-primary w-100 btn-pill" style="padding:16px; font-size:1rem;" onclick="showToast('Notice published to Block-C Noticeboard!', 'success')">
+                        <i class="fa-solid fa-paper-plane"></i> Publish Notice
+                    </button>
+                    
+                    <h3 style="margin-top:30px; font-size:1rem; border-bottom:1px solid var(--border-light); padding-bottom:10px;">Recent Notices</h3>
+                    <div style="font-size:0.85rem; padding:10px 0; border-bottom:1px solid var(--border-light);">
+                        <strong style="color:var(--primary);">Water shortage tonight</strong> - Posted 2 days ago
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- PROFILE SETTINGS MODAL (Content injected by script.js) -->
+    <div class="glass-overlay modal" id="profileModal">
+        <div class="modal-content" style="max-width: 440px;">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="./js/script.js" defer></script>
+</body>
+</html>
