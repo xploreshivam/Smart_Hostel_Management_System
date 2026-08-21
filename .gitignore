@@ -9,7 +9,6 @@ Thumbs.db
 *.swo
 
 # Project specific
-.gemini/
 *.log
 
 # CSV Data (Optional: if the user wants to keep data private, but here it's part of the project)
