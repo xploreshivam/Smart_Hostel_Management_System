@@ -1,10 +1,4 @@
-/* 
- * PROJECT: NEXSTAY - Hostel Management System
- * PURPOSE: Collage Semester 4 Frontend Project
- * DEVELOPED BY: [Your Name]
- * ROLL NO: [Your Roll No]
- * DATE: April 2026
- * ------------------------------------------------------------
+ /* ------------------------------------------------------------
  * MAIN JAVASCRIPT LOGIC FILE
  * Handles everything from Mess Menu to Room Allotment
  */
@@ -311,6 +305,11 @@ function simulatePayment(btn) {
     setTimeout(() => {
         btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Payment Successful!';
         btn.style.background = 'var(--success)';
+        
+        // Persist payment in localStorage so it updates across student & admin portals
+        localStorage.setItem('nexstay_fee_paid', 'true');
+        updatePaymentUI();
+
         setTimeout(() => {
             closePaymentModal();
             showToast('₹12,500 paid successfully! Receipt sent to your email.', 'success');
@@ -335,8 +334,20 @@ function applyLeave() {
     const rsEl   = document.getElementById('leaveReason');
     if (form)   form.style.display   = 'block';
     if (ticket) ticket.style.display = 'none';
-    if (dateEl) dateEl.value = '';
+    if (dateEl) {
+        dateEl.value = '';
+        const today = new Date().toISOString().split('T')[0];
+        dateEl.min = today;
+    }
     if (rsEl)   rsEl.value  = '';
+    
+    // Also set min on dynamic modal inputs if present
+    const fromEl = document.getElementById('leaveFrom');
+    const toEl   = document.getElementById('leaveTo');
+    const today = new Date().toISOString().split('T')[0];
+    if (fromEl) fromEl.min = today;
+    if (toEl) toEl.min = today;
+
     openModal('leaveModal');
 }
 
@@ -356,7 +367,8 @@ function generateQRPass(e) {
     if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...'; }
 
     setTimeout(() => {
-        const name    = localStorage.getItem('nexstay_user_name') || 'Priya Sharma';
+        const role    = getUserRole();
+        const name    = localStorage.getItem(`nexstay_${role}_name`) || localStorage.getItem('nexstay_user_name') || 'Priya Sharma';
         const qrData  = encodeURIComponent(`NEXSTAY|${name}|EN2024045|${date}|${reason}`);
         const qrImg   = document.getElementById('generatedQR');
         const dateEl  = document.getElementById('ticketDate');
@@ -370,7 +382,23 @@ function generateQRPass(e) {
         document.getElementById('leaveFormSection').style.display = 'none';
         document.getElementById('qrTicketSection').style.display  = 'block';
 
-        showToast('Gate Pass generated!', 'success');
+        // Sync with Leave History table in Student Dashboard
+        const leaveTableBody = document.querySelector('#section-leave .data-table tbody');
+        if (leaveTableBody) {
+            const formattedDate = new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const newRow = `
+                <tr>
+                    <td>Today (Just Now)</td>
+                    <td>${formattedDate}</td>
+                    <td>${reason}</td>
+                    <td><span class="text-success"><i class="fa-solid fa-qrcode"></i> Pass Active</span></td>
+                    <td><span class="badge success">Approved</span></td>
+                </tr>
+            `;
+            leaveTableBody.insertAdjacentHTML('afterbegin', newRow);
+        }
+
+        showToast('Gate Pass generated & added to Leave History!', 'success');
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Generate Gate Pass'; }
     }, 900);
 }
@@ -471,9 +499,35 @@ function exportData() {
 }
 
 function searchAttendance(input) {
-    if (input.value.length > 2) {
-        showToast(`Searching for: ${input.value}`, 'info');
-    }
+    const query = input.value.toLowerCase().trim();
+    const container = input.nextElementSibling;
+    if (!container) return;
+    const items = container.querySelectorAll(':scope > div');
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = (!query || text.includes(query)) ? 'flex' : 'none';
+    });
+}
+
+function filterStudentTable(input, targetBodyId) {
+    const query = input.value.toLowerCase().trim();
+    const tbody = document.getElementById(targetBodyId);
+    if (!tbody) return;
+
+    // Search across all rows in the table
+    const table = tbody.closest('table');
+    const allRows = table ? table.querySelectorAll('tbody tr') : tbody.querySelectorAll('tr');
+    
+    let visibleCount = 0;
+    allRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (!query || text.includes(query)) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
 }
 
 // ============================================================
@@ -1163,6 +1217,55 @@ function saveProfileDynamic(event) {
 }
 
 
+// Submit Leave (Handler for dynamic leave modal)
+function submitLeave() {
+    const reason = document.getElementById('leaveReason')?.value.trim();
+    const fromDate = document.getElementById('leaveFrom')?.value;
+    const toDate = document.getElementById('leaveTo')?.value;
+    const contact = document.getElementById('leaveContact')?.value.trim();
+
+    if (!reason) {
+        showToast('Please enter a reason for leave.', 'error');
+        return;
+    }
+    if (!fromDate) {
+        showToast('Please select a start date.', 'error');
+        return;
+    }
+
+    const btn = document.getElementById('leaveSubmitBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+    }
+
+    setTimeout(() => {
+        closeModal('leaveModal');
+        showToast('Leave application submitted to Warden for approval!', 'success');
+        
+        // If leave table exists on page, add the new record
+        const leaveTableBody = document.querySelector('#section-leave .data-table tbody');
+        if (leaveTableBody) {
+            const dateStr = toDate ? `${fromDate} - ${toDate}` : fromDate;
+            const newRow = `
+                <tr>
+                    <td>Just Now</td>
+                    <td>${dateStr}</td>
+                    <td>${reason}</td>
+                    <td>--</td>
+                    <td><span class="badge warning">Pending Warden</span></td>
+                </tr>
+            `;
+            leaveTableBody.insertAdjacentHTML('afterbegin', newRow);
+        }
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Application';
+        }
+    }, 1000);
+}
+
 // Update the dues card to green dynamically if paid
 function updatePaymentUI() {
     if(localStorage.getItem('nexstay_fee_paid') === 'true') {
@@ -1170,12 +1273,55 @@ function updatePaymentUI() {
         const cards = document.querySelectorAll('.grid-cards .glass-card');
         if(cards && cards.length >= 3) {
             const dueCard = cards[2]; 
-            dueCard.querySelector('.icon').className = 'icon green'; // icon green
-            dueCard.querySelector('h3').innerText = '₹0'; // amount zero
-            dueCard.querySelector('small').className = 'text-success'; // text green
-            dueCard.querySelector('small').innerHTML = '<i class="fa-solid fa-check-double"></i> Cleared for this semester';
+            const icon = dueCard.querySelector('.icon');
+            if (icon) icon.className = 'icon green';
+            const h3 = dueCard.querySelector('h3');
+            if (h3) h3.innerText = '₹0';
+            const sm = dueCard.querySelector('small');
+            if (sm) {
+                sm.className = 'text-success';
+                sm.innerHTML = '<i class="fa-solid fa-check-double"></i> Cleared for this semester';
+            }
+        }
+
+        // Update fee portal total outstanding card if present
+        const feeSection = document.getElementById('section-payments');
+        if (feeSection) {
+            const outH1 = feeSection.querySelector('h1');
+            if (outH1) outH1.innerText = '₹0';
+            const infoP = feeSection.querySelector('.glass-card p');
+            if (infoP) infoP.innerHTML = '<i class="fa-solid fa-circle-check"></i> All semester dues cleared';
+            const dueBadge = feeSection.querySelector('.badge.danger');
+            if (dueBadge) {
+                dueBadge.className = 'badge success';
+                dueBadge.innerText = 'Paid';
+            }
+        }
+
+        // Sync Admin Portal Priya Sharma Fee status badge if present
+        const priyaAdminBadge = document.getElementById('priyaAdminFeeStatus');
+        if (priyaAdminBadge) {
+            priyaAdminBadge.className = 'badge success';
+            priyaAdminBadge.innerText = 'Paid';
         }
     }
+}
+
+// Mobile Sidebar Toggle
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+    sidebar.classList.toggle('open');
+
+    let backdrop = document.getElementById('sidebarBackdrop');
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.id = 'sidebarBackdrop';
+        backdrop.className = 'sidebar-backdrop';
+        backdrop.onclick = toggleSidebar;
+        document.body.appendChild(backdrop);
+    }
+    backdrop.classList.toggle('active', sidebar.classList.contains('open'));
 }
 
 
@@ -1187,16 +1333,28 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.setAttribute('data-theme', 'dark');
     }
 
-    // Restore saved profile name everywhere on page load
-    const savedName  = localStorage.getItem('nexstay_user_name');
-    const savedEmail = localStorage.getItem('nexstay_user_email');
-    const savedImg   = localStorage.getItem('nexstay_user_image');
+    // Restore saved profile role-aware data everywhere on page load
+    const role = getUserRole();
+    const savedName  = localStorage.getItem(`nexstay_${role}_name`)  || localStorage.getItem('nexstay_user_name');
+    const savedEmail = localStorage.getItem(`nexstay_${role}_email`) || localStorage.getItem('nexstay_user_email');
+    const savedImg   = localStorage.getItem(`nexstay_${role}_image`) || localStorage.getItem('nexstay_user_image');
     if (savedName) updateAllNames(savedName, savedEmail || '', savedImg || '');
 
     // Auto-highlight today's day in Mess Menu
     const todayIndex = (new Date().getDay() + 6) % 7;
     const messBtns = document.querySelectorAll('#messDayBtns .btn-secondary');
     if (messBtns.length > 0) switchMessDay(todayIndex, messBtns[todayIndex]);
+
+    // Initialize default tables & room cards if present on page
+    if (document.getElementById('adminStudentDirectoryBody')) {
+        renderStudentDirectory('adminStudentDirectoryBody');
+    }
+    if (document.getElementById('studentDirectoryBody')) {
+        renderStudentDirectory('studentDirectoryBody', 'Block C');
+    }
+    if (document.getElementById('roomGridContainer')) {
+        renderRoomStatus('Block A');
+    }
 });
 
 // Dark Theme Toggle function
@@ -1232,6 +1390,12 @@ function switchAdminTab(tabId, element) {
     document.querySelectorAll('.side-nav a').forEach(link => link.classList.remove('active'));
     element.classList.add('active');
 
+    // Close mobile sidebar if open
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        toggleSidebar();
+    }
+
     // Run specific setup for this tab
     if (tabId === 'rooms') renderRoomStatus('Block A');
     if (tabId === 'overview') renderStudentDirectory('adminStudentDirectoryBody');
@@ -1246,6 +1410,12 @@ function switchStudentTab(tabId, element) {
     }
     document.querySelectorAll('.side-nav a').forEach(link => link.classList.remove('active'));
     element.classList.add('active');
+
+    // Close mobile sidebar if open
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        toggleSidebar();
+    }
 }
 
 function switchWardenTab(tabId, element) {
@@ -1257,6 +1427,12 @@ function switchWardenTab(tabId, element) {
     }
     document.querySelectorAll('.side-nav a').forEach(link => link.classList.remove('active'));
     element.classList.add('active');
+
+    // Close mobile sidebar if open
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        toggleSidebar();
+    }
 
     // Load room data for Warden
     if (tabId === 'rooms') renderRoomStatus('Block A');
