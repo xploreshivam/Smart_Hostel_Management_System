@@ -1,5 +1,4 @@
 /* ====================================================
-   NEXSTAY v9 — VELVET WINE RED  |  PREMIUM REFINED
    Light Mode · All Pages · Polished UI System
    ==================================================== */
 
@@ -1544,5 +1543,65 @@ input:checked + .slider:before { transform: translateX(17px); }
         flex-direction: column;
         text-align: center;
     }
+}
+
+/* ============================================================
+   RESPONSIVE DASHBOARD & MOBILE SIDEBAR DRAWER
+   ============================================================ */
+.mobile-menu-btn {
+  display: none;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.sidebar-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-btn {
+    display: inline-flex !important;
+  }
+  .dashboard-layout {
+    position: relative;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 270px;
+    height: 100vh;
+    z-index: 999;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+  }
+  .sidebar.open {
+    transform: translateX(280px);
+  }
+  .dashboard-content {
+    padding: 20px 16px;
+    width: 100%;
+  }
+  .grid-cards {
+    grid-template-columns: 1fr;
+  }
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .span-2 {
+    grid-column: span 1;
+  }
 }
 
