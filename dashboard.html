@@ -44,7 +44,7 @@
             </div>
 
             <nav class="side-nav">
-                <a href="#" class="active" onclick="switchStudentTab('dashboard', this)"><i class="fa-solid fa-grid-2"></i> Dashboard</a>
+                <a href="#" class="active" onclick="switchStudentTab('dashboard', this)"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a href="#" onclick="switchStudentTab('qrpass', this)"><i class="fa-solid fa-qrcode"></i> QR Pass <span class="badge" style="margin-left:auto; font-size:0.65rem;">New</span></a>
                 <a href="#" onclick="switchStudentTab('room', this)"><i class="fa-solid fa-bed"></i> Room Details</a>
                 <a href="#" onclick="switchStudentTab('leave', this)"><i class="fa-solid fa-plane-departure"></i> Leave Passes</a>
@@ -66,6 +66,9 @@
                         <h2>Dashboard</h2>
                     </div>
                     <div class="top-actions">
+                        <button class="icon-btn mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar" title="Menu">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
                         <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme">
                             <i class="fa-solid fa-moon"></i>
                         </button>
