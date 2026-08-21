@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- 
-     PROJECT: NexStay Hostel Management System
-     SUBMITTED BY: [Your Name]
-     ROLL NUMBER: [Your Roll No]
-     SEMESTER: 4
--->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -60,6 +54,9 @@
                         <p>Block-C · 15 pending actions today · Thursday, Apr 10</p>
                     </div>
                     <div class="top-actions">
+                        <button class="icon-btn mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar" title="Menu">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
                         <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme">
                             <i class="fa-solid fa-moon"></i>
                         </button>
@@ -240,8 +237,8 @@
                                 <td>Home Visit</td>
                                 <td><span class="text-success"><i class="fa-solid fa-check-circle"></i> Verified</span></td>
                                 <td class="action-cell">
-                                    <button class="btn-text text-success" onclick="approveLeave('Nitin', document.getElementById('tab-l-1'))">Approve</button>
-                                    <button class="btn-text text-danger" style="margin-left:10px;">Reject</button>
+                                    <button class="btn-text text-success approve-btn" onclick="approveLeave('Nitin Kumar', document.getElementById('tab-l-1'))">Approve</button>
+                                    <button class="btn-text text-danger" style="margin-left:10px;" onclick="rejectLeave('Nitin Kumar', document.getElementById('tab-l-1'))">Reject</button>
                                 </td>
                             </tr>
                             <tr id="tab-l-2">
@@ -250,8 +247,8 @@
                                 <td>Local Outing</td>
                                 <td><span class="text-muted"><i class="fa-solid fa-minus"></i> N/A</span></td>
                                 <td class="action-cell">
-                                    <button class="btn-text text-success" onclick="approveLeave('Rahul', document.getElementById('tab-l-2'))">Approve</button>
-                                    <button class="btn-text text-danger" style="margin-left:10px;">Reject</button>
+                                    <button class="btn-text text-success approve-btn" onclick="approveLeave('Rahul Dubey', document.getElementById('tab-l-2'))">Approve</button>
+                                    <button class="btn-text text-danger" style="margin-left:10px;" onclick="rejectLeave('Rahul Dubey', document.getElementById('tab-l-2'))">Reject</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -294,7 +291,7 @@
                 <header class="topbar">
                     <div><h2>Student Directory</h2><p>Full database for Block-C.</p></div>
                     <div style="position:relative;">
-                        <input type="text" placeholder="Search by name, room..." style="padding:10px 14px 10px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit;">
+                        <input type="text" placeholder="Search by name, room..." style="padding:10px 14px 10px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit;" oninput="filterStudentTable(this, 'studentDirectoryBody')">
                         <i class="fa-solid fa-search" style="position:absolute; left:12px; top:12px; color:var(--text-muted);"></i>
                     </div>
                 </header>
