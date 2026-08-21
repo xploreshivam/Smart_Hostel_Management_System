@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- 
-     PROJECT: NexStay Hostel Management System
-     SUBMITTED BY: [Your Name]
-     ROLL NUMBER: [Your Roll No]
-     SEMESTER: 4
--->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -39,7 +33,7 @@
             </div>
 
             <nav class="side-nav">
-                <a href="#" class="active" onclick="switchAdminTab('overview', this)"><i class="fa-solid fa-grid-2"></i> Overview</a>
+                <a href="#" class="active" onclick="switchAdminTab('overview', this)"><i class="fa-solid fa-table-cells-large"></i> Overview</a>
                 <a href="#" onclick="switchAdminTab('staff', this)"><i class="fa-solid fa-user-shield"></i> Staff / Wardens</a>
                 <a href="#" onclick="switchAdminTab('blocks', this)"><i class="fa-solid fa-building"></i> Hostel Blocks</a>
                 <a href="#" onclick="switchAdminTab('rooms', this)"><i class="fa-solid fa-bed"></i> Room Status</a>
@@ -62,6 +56,9 @@
                         <p>Live campus statistics and hostel occupancy data.</p>
                     </div>
                     <div class="top-actions">
+                        <button class="icon-btn mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Sidebar" title="Menu" style="margin-right:10px;">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
                         <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Theme" style="margin-right:10px;">
                             <i class="fa-solid fa-moon"></i>
                         </button>
@@ -119,7 +116,7 @@
                             <h3>Recent Allocations & Fee Status</h3>
                             <div style="position:relative;">
                                 <i class="fa-solid fa-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:0.5; font-size:0.8rem;"></i>
-                                <input type="text" placeholder="Search student..." style="padding:8px 14px 8px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit; font-size:0.85rem;">
+                                <input type="text" placeholder="Search student..." style="padding:8px 14px 8px 32px; border-radius:20px; border:1px solid var(--border-light); outline:none; font-family:inherit; font-size:0.85rem;" oninput="filterStudentTable(this, 'adminStudentDirectoryBody')">
                             </div>
                         </div>
                         
@@ -148,12 +145,27 @@
                                         <td style="font-family:monospace; color:var(--text-muted);">EN2024001</td>
                                         <td><span style="font-weight:600;">Block A - 102</span></td>
                                         <td><span class="badge success">Paid</span></td>
-                                        <td><button class="btn-text">Manage</button></td>
+                                        <td><button class="btn-text" onclick="showToast('Student account opened','info')">Manage</button></td>
                                     </tr>
                                     <tr>
-                                    <tbody id="adminStudentDirectoryBody">
-                                        <!-- Injected by script.js -->
-                                    </tbody>
+                                        <td>
+                                            <div class="student-chip">
+                                                <div class="initials" style="background:var(--primary);">PS</div>
+                                                <div>
+                                                    <div style="font-weight:600;">Priya Sharma</div>
+                                                    <div style="font-size:0.75rem; color:var(--text-muted);">B.Tech IT</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="font-family:monospace; color:var(--text-muted);">EN2024045</td>
+                                        <td><span style="font-weight:600;">Block C - 405</span></td>
+                                        <td><span id="priyaAdminFeeStatus" class="badge danger">Due</span></td>
+                                        <td><button class="btn-text" onclick="showToast('Student account opened','info')">Manage</button></td>
+                                    </tr>
+                                </tbody>
+                                <tbody id="adminStudentDirectoryBody">
+                                    <!-- Injected by script.js -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
